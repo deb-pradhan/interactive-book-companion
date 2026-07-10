@@ -13,14 +13,18 @@ It is included so the Interactive Book Companion can pull award-level design cra
 detail: fluid typography, motion easing, layout rhythm, and the Awwwards judging criteria, with
 the concrete code examples in `references/`.
 
+**READ [`ARTIFACT-ADAPTATION.md`](ARTIFACT-ADAPTATION.md) FIRST.** This skill is written for full
+web projects and reaches for GSAP, Three.js, Lenis, Spline, external fonts, npm packages, and
+CDNs. Our companion ships as a single self-contained artifact under a strict CSP where none of
+those can load — copying an `import` or `<script src>` line from here will leave the companion
+blank or broken. The adaptation file maps every technique to its dependency-free equivalent and
+lists the exact pitfalls to avoid. Take the principles and numbers from this skill; take the
+delivery rules from the adaptation file.
+
 **How it relates to our design system.** The companion's own design system
 (`../interactive-book-companion/references/design-system.md`, section 18) already encodes the
 award-level bar and the parts of this guidance that fit our product. Use this vendored skill for
-the deeper technique detail. One adaptation to keep in mind: our companion ships as a single
-self-contained artifact (React or vanilla HTML), so where this skill reaches for GSAP, Lenis,
-Three.js, or other external libraries, implement the same idea with CSS + `requestAnimationFrame`
-(and `recharts`/`framer-motion` only if the runtime already provides them). The principles carry
-over; the delivery is dependency-free.
+the deeper technique detail, filtered through `ARTIFACT-ADAPTATION.md`.
 
 The code and text are used unmodified. To pull upstream changes, re-copy from the source repo at
 a newer commit and update the commit hash above.

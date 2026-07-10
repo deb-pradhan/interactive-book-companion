@@ -44,6 +44,19 @@ so and say you traced it by hand instead.
 - [ ] HTML: valid structure, every tag closed, one `<script>` runs without throwing.
 - [ ] No leftover `TODO`, placeholder, lorem ipsum, or "[book title]" tokens.
 
+**Self-contained-artifact pitfalls (the sandbox blocks all external requests — verify none exist):**
+- [ ] NO external dependency of any kind: no `<script src>`, no `<link href>` to a CDN or font,
+      no `@font-face`/font URL, no remote image `src` or `background:url(http...)`.
+- [ ] NO import of any package beyond (React artifact) `react`, `recharts`, `lucide-react`, and
+      `framer-motion` if the runtime provides it. Specifically none of: GSAP, ScrollTrigger,
+      Lenis, Three.js, R3F, OGL, Spline, Anime.js, Barba, SplitText/SplitType, any WebGL/shader.
+      (These come from the awwwards skill and will silently fail to load. See
+      `../../awwwards/ARTIFACT-ADAPTATION.md`.)
+- [ ] NO `fetch`/XHR/WebSocket, NO `localStorage`/`sessionStorage`/cookies. State is in-memory.
+- [ ] It renders and runs fully offline with zero console errors (no network is available).
+- [ ] Any View Transitions API or CSS scroll-driven animation has a working fallback for browsers
+      that lack it.
+
 ### B. Navigation and flow
 - [ ] Every nav item routes to the correct section and highlights as active.
 - [ ] Every section is reachable from the nav (list them and check each).

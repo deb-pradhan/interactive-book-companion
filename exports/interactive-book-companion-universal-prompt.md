@@ -2060,13 +2060,19 @@ The goal is a companion that could win Awwwards Site of the Day, judged the way 
 is how to hit the bar and how to check yourself.
 
 **Full detail lives in the bundled awwwards skill.** For deeper technique and concrete code
-examples (fluid type scales, font pairings, oklch color systems, easing libraries, scroll
-reveals, grid patterns, cursor effects, loading sequences, the studio philosophies and the
-Awwwards checklist), read the vendored skill at `skills/awwwards/` (SKILL.md and its `references/`
-files). One adaptation: the companion ships as a single self-contained artifact, so where that
-skill reaches for GSAP, Lenis, or Three.js, implement the same idea with CSS +
-`requestAnimationFrame` (and `recharts`/`framer-motion` only if the runtime already provides
-them). Principles carry over; delivery stays dependency-free.
+examples (fluid type scales, font pairings, oklch color systems, easing, scroll reveals, grid
+patterns, cursor effects, loading sequences, the studio philosophies and the Awwwards checklist),
+read the vendored skill at `skills/awwwards/`.
+
+**But read `skills/awwwards/ARTIFACT-ADAPTATION.md` before you copy anything from it.** That skill
+is written for full web projects and leans on GSAP, Three.js, Lenis, Spline, external fonts, and
+npm packages. The companion ships as a single self-contained artifact under a strict CSP where
+**none of those can load** — pasting an `import`, `<script src>`, or font URL from that skill will
+leave the companion blank or broken. This is the biggest pitfall in the whole build. Take the
+principles and the exact numbers (easing curves, clamp scales, tracking, timing); implement them
+with CSS + `requestAnimationFrame` and inline SVG (and `recharts`/`lucide-react`/`framer-motion`
+only if the React runtime already provides them). The adaptation file maps every technique to its
+dependency-free equivalent. Principles carry over; delivery stays dependency-free.
 
 ### 18.1 Art direction before pixels
 
@@ -2307,7 +2313,10 @@ format — it runs in any browser on any device with zero dependencies.
 ## Technical Requirements
 
 - Single HTML file with embedded `<style>` and `<script>` tags.
-- No external dependencies, CDNs, or framework imports.
+- No external dependencies, CDNs, or framework imports. The file must render and run fully
+  offline. Specifically never pull in GSAP, Three.js, Lenis, Spline, Anime.js, SplitText, or any
+  external library, font URL, or remote image. If you drew inspiration from award-winning
+  animation work, reimplement it with CSS + requestAnimationFrame + inline SVG.
 - Vanilla JavaScript for all interactivity (no React, Vue, or Angular).
 - CSS custom properties (variables) for all design tokens from the design system.
 - Responsive: works on both desktop and mobile viewports.
@@ -2477,6 +2486,19 @@ so and say you traced it by hand instead.
       `lucide-react` imports resolve and every icon name used actually exists.
 - [ ] HTML: valid structure, every tag closed, one `<script>` runs without throwing.
 - [ ] No leftover `TODO`, placeholder, lorem ipsum, or "[book title]" tokens.
+
+**Self-contained-artifact pitfalls (the sandbox blocks all external requests — verify none exist):**
+- [ ] NO external dependency of any kind: no `<script src>`, no `<link href>` to a CDN or font,
+      no `@font-face`/font URL, no remote image `src` or `background:url(http...)`.
+- [ ] NO import of any package beyond (React artifact) `react`, `recharts`, `lucide-react`, and
+      `framer-motion` if the runtime provides it. Specifically none of: GSAP, ScrollTrigger,
+      Lenis, Three.js, R3F, OGL, Spline, Anime.js, Barba, SplitText/SplitType, any WebGL/shader.
+      (These come from the awwwards skill and will silently fail to load. See
+      `../../awwwards/ARTIFACT-ADAPTATION.md`.)
+- [ ] NO `fetch`/XHR/WebSocket, NO `localStorage`/`sessionStorage`/cookies. State is in-memory.
+- [ ] It renders and runs fully offline with zero console errors (no network is available).
+- [ ] Any View Transitions API or CSS scroll-driven animation has a working fallback for browsers
+      that lack it.
 
 ### B. Navigation and flow
 - [ ] Every nav item routes to the correct section and highlights as active.
