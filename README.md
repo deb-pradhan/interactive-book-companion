@@ -31,6 +31,7 @@ PDF / EPUB  ──▶  book-to-skill (compress)  ──▶  interactive-book-com
 |---|---|---|
 | [`skills/interactive-book-companion/`](skills/interactive-book-companion/) | Open [Agent Skill](https://agentskills.io) (`SKILL.md` + `references/`) | Claude Code, Claude.ai, and any agent that supports the Agent Skills spec |
 | [`skills/book-to-skill/`](skills/book-to-skill/) | Open Agent Skill (the PDF/EPUB compressor) | Claude Code. Vendored from [the-knowledge-guy](https://github.com/vitalysim/the-knowledge-guy) (MIT). See [PIPELINE.md](PIPELINE.md). |
+| [`skills/awwwards/`](skills/awwwards/) | Open Agent Skill (award-level design craft) | Any design task. Vendored from [claude-skill-awwwards](https://github.com/tponscr-debug/claude-skill-awwwards) (MIT) for full detail behind the design system's award-level guidance. |
 | [`exports/interactive-book-companion-universal-prompt.md`](exports/interactive-book-companion-universal-prompt.md) | Markdown system prompt | **Any LLM** — paste as the system prompt |
 | [`exports/openai-custom-gpt-config.json`](exports/openai-custom-gpt-config.json) | OpenAI Custom GPT config | OpenAI GPTs / Assistants API |
 | [`exports/agent-framework-config.json`](exports/agent-framework-config.json) | Structured agent config | LangChain, CrewAI, AutoGen, etc. |
@@ -99,11 +100,12 @@ The companion is generated using ten evidence-based learning techniques (retriev
 - For whole books, compress first (see [PIPELINE.md](PIPELINE.md)); for articles and excerpts, build straight from the text.
 
 ## Acknowledgments
-The award-level design guidance in the design system is informed by public Awwwards judging
-criteria and general award-winning web-design practice, including the
-[claude-skill-awwwards](https://github.com/tponscr-debug/claude-skill-awwwards) skill. No code or
-text from that project is vendored here; only the underlying principles (fluid type, motion
-easing, negative space, self-scoring on the four Awwwards axes) were learned and re-expressed.
+The award-level design guidance draws on the
+[claude-skill-awwwards](https://github.com/tponscr-debug/claude-skill-awwwards) skill by
+`tponscr-debug`, which is **vendored in full** under MIT at
+[`skills/awwwards/`](skills/awwwards/) (see its [VENDORED.md](skills/awwwards/VENDORED.md) for
+attribution and the exact commit). The companion's own design system encodes the parts that fit
+this product; the vendored skill provides the deeper technique detail and code examples.
 
 ## License
 [MIT](LICENSE), free to use, modify, and redistribute. The vendored [`skills/book-to-skill/`](skills/book-to-skill/) is also MIT, © 2026 Vitaly Simonovich; its license travels with it in that folder.

@@ -2059,6 +2059,15 @@ The goal is a companion that could win Awwwards Site of the Day, judged the way 
 **Design 40%, Usability 20%, Creativity 20%, Content 20%.** Everything above serves this; here
 is how to hit the bar and how to check yourself.
 
+**Full detail lives in the bundled awwwards skill.** For deeper technique and concrete code
+examples (fluid type scales, font pairings, oklch color systems, easing libraries, scroll
+reveals, grid patterns, cursor effects, loading sequences, the studio philosophies and the
+Awwwards checklist), read the vendored skill at `skills/awwwards/` (SKILL.md and its `references/`
+files). One adaptation: the companion ships as a single self-contained artifact, so where that
+skill reaches for GSAP, Lenis, or Three.js, implement the same idea with CSS +
+`requestAnimationFrame` (and `recharts`/`framer-motion` only if the runtime already provides
+them). Principles carry over; delivery stays dependency-free.
+
 ### 18.1 Art direction before pixels
 
 Before building, decide the feeling. Our vertical is learning, and our house style is the warm,
