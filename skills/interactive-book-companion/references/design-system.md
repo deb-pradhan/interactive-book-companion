@@ -1,39 +1,50 @@
 # Interactive Book Companion — Complete Design System
 
 This document is the single source of truth for every visual decision in the companion.
-Any AI agent reading this file should be able to produce an interface indistinguishable
-from one designed by a senior Apple/Google design lead. Follow every specification literally.
-When in doubt, choose the calmer, more spacious, more restrained option.
+Any AI agent reading this file should produce an interface that looks like the reference
+dashboards it is modeled on: the **Roam learning** and **HealthyLife** families. Those are
+colorful, graphic, playful product UIs, packed with charts, colored cards, mascots, and
+illustrations. Follow every specification literally. When in doubt, add a graphic.
+
+**The number one rule: this is a graphical product, not a document.** If a screen is mostly
+paragraphs, it is wrong. Every view should be carried by charts, colored cards, icons,
+illustrations, progress rings, and stats, with text as the supporting layer. Reviewers keep
+saying the output feels text-heavy. Overcorrect toward visuals.
 
 ---
 
 ## 1. Design Philosophy
 
-The visual language is derived from five principles observed in best-in-class learning and
-wellness interfaces (the Roam learning platform and HealthyLife dashboard families):
+The visual language comes from best-in-class learning and wellness dashboards (Roam and
+HealthyLife). Six principles:
 
-1. **Soft environmental canvas.** The background is never pure white — it is a tinted, muted
-   surface that makes the entire screen feel like a calm physical environment rather than a
-   harsh digital grid. Cards float on this canvas with elevation.
+1. **Soft environmental canvas.** The background is never pure white. It is a tinted periwinkle
+   surface that makes the screen feel like a calm physical space. Cards and graphics float on
+   it with elevation.
 
-2. **Card-first information architecture.** Every discrete piece of content lives inside a
-   card. Cards are the atomic unit of the UI. They have generous radius, soft shadows, and
-   ample internal breathing room. Information density is managed by the number of cards
-   visible, not by cramming content into fewer cards.
+2. **Card-first, and cards are colorful.** Every piece of content lives in a card, but cards are
+   not all white. The references lay grids of vivid pastel cards side by side (yellow, light
+   blue, pink, lavender, gray) and drop in black feature cards for punch. A screen is a mosaic
+   of colored cards, charts, and illustrations, not a column of white boxes.
 
-3. **Color as functional language.** Each interaction type has a dedicated accent color. The
-   user learns the color vocabulary within the first two minutes and can then predict what
-   a screen will ask of them before reading a word. Color is never decorative — it always
-   signals function.
+3. **Graphical by default.** Charts, donuts, progress rings, timelines, pictographs, icons in
+   colored circles, mascots, and line-art illustrations do the teaching. Reach for a visual
+   before a paragraph. Numbers are shown as charts and rings, categories as chips with icons,
+   relationships as diagrams. Aim for several real graphics per screen.
 
-4. **One focus at a time.** The interface never shows two competing demands for attention.
-   Stepper screens show one concept. Quiz screens show one question. Cards show one principle.
-   Density is for dashboards; learning is sequential.
+4. **Color is loud and functional.** Each method still keeps its signature accent (so the reader
+   learns the vocabulary), but the palette is used generously and simultaneously. This is a
+   color-rich interface. A single screen routinely shows four or five accents across its cards
+   and charts. That is the look, not a mistake.
 
-5. **Friendly authority.** The tone is warm but not childish. Rounded shapes signal
-   approachability; consistent spacing and typographic hierarchy signal expertise. The
-   interface should feel like a brilliant friend who happens to be a professor — not a
-   textbook, not a toy.
+5. **Playful personality.** The tone is warm, witty, and a little cheeky, like the reference copy
+   ("Your Brain Called. It Wants More.", "Small lessons. Big wins. Zero pressure."). Rounded
+   pill shapes, emoji anchors, 3D-style avatars, and doodle illustrations signal approachability.
+   It should feel like a smart, fun friend, not a textbook.
+
+6. **Focus within the graphics.** Individual learning moments still show one concept or one
+   question at a time. But the surrounding dashboard, mind map, and overview screens are rich,
+   dense, and visual. Sequential where you learn, dashboard-dense where you navigate.
 
 ---
 
@@ -88,21 +99,37 @@ hover states).
 | `warning` | `#F59E0B` | Shared with accent-amber. Caution states, unsaved progress |
 | `info` | `#6366F1` | Shared with accent-indigo. Informational tooltips, hints |
 
-### 2.5 Colored Card Backgrounds
+### 2.5 Colored Card Backgrounds — a primary pattern
 
-Some cards use a full-bleed accent-soft background instead of white. These are used sparingly
-for visual rhythm — breaking up a long scroll of white cards.
+Colored cards are not rare punctuation. They are how the references look: grids of vivid pastel
+cards sitting next to each other, each with an icon and a big number, plus black cards for
+emphasis. Use them liberally. A stat grid of four differently-colored cards in one row is the
+target, not a violation.
 
-| Card type | Background | Text color on it |
+These are the reference card colors. Text on the pastels is always `text-primary`; text on the
+black card is `text-on-dark`.
+
+| Card type | Background | Typical use |
 |---|---|---|
-| Scheduled / stat highlight | `#FDE68A` (warm yellow) | `text-primary` |
-| Creative / rose highlight | `#FBCFE8` (soft pink) | `text-primary` |
-| Active / energy highlight | `#FDBA74` (soft orange) | `text-primary` |
-| Insight / violet highlight | `#DDD6FE` (soft violet) | `text-primary` |
-| Dark feature card | `#12121F` | `text-on-dark` |
+| Yellow | `#F5C84B` | "Scheduled"-style highlight, streaks, warm stat |
+| Light blue | `#AFC3F7` | "Active"-style highlight, calm stat |
+| Pink / magenta | `#E9A6F0` | "Overdue"/creative highlight, synthesis |
+| Lavender | `#C9C6F5` | insight, principle highlight |
+| Salmon | `#F8C6C0` | alert-ish stat, "lost weight"-style |
+| Mint | `#B8E4C9` | success stat, completion |
+| Soft gray | `#ECEDF1` | neutral stat ("All"-style) |
+| Orange | `#F5892E` (text stays `text-primary` or white) | energy, "do it now", active course |
+| Violet | `#6D4FD0` (white text) | feature/character card, hero moments |
+| Black feature | `#0F0F14` | emphasis cards, milestones, category active, AI panel |
 
-**Rule:** No more than one colored card per visible viewport. Colored cards are punctuation,
-not the paragraph.
+**Black feature cards are a core tool, not just for bookends.** The references use black cards
+throughout for the most important thing on a screen (a milestone, a featured course, the active
+category chip, the assistant panel, the mic button). Reach for a black card a few times per
+companion to create punch and hierarchy.
+
+**Rhythm rule:** aim for two to four colored or black cards per viewport on overview screens,
+mixed with white cards and charts. Do not let a screen become an unbroken run of white boxes.
+The old "one colored card per viewport" rule is retired.
 
 ---
 
@@ -422,54 +449,105 @@ Inline: border-b-2 border-dashed border-[accent-indigo] px-1 min-w-[80px]
 Text: font-medium text-[accent-indigo-deep] when filled
 ```
 
-### 7.6 Mind Map Flow Diagram
+### 7.6 Mind Map Flow Diagram (animated, multi-level)
 
-The mind map is a real node-and-edge flow diagram: nodes positioned in space, connected by
-curved SVG edges, that the reader can expand, pan, zoom, and click into. It is not tabs, not an
-accordion, not a column of cards. It is the visual hub of the whole companion.
+The mind map is a living, moving node-and-edge diagram, not a static picture and not tabs or a
+card stack. It is the visual centerpiece of the companion, so make it feel alive and go deep.
 
-**Center node (Thesis)**
+**It moves.** The map is never frozen:
+
+- **Gentle idle drift.** Nodes float with a slow, subtle continuous motion (a few pixels of
+  sinusoidal sway, each node offset in phase, ~4-8s loop) so the whole map breathes. Edges
+  follow their nodes. Keep it calm, not jittery.
+- **Flowing edges.** Connector lines carry motion: an animated dashed "flow" traveling along the
+  path (SVG `stroke-dasharray` + animated `stroke-dashoffset`), or a soft gradient pulse from
+  parent to child, so the eye reads direction and the diagram feels energized.
+- **Spring expand/collapse.** Expanding a node springs its children outward from its position
+  (scale 0.8→1, opacity 0→1, staggered ~60ms) with a springy easing. Collapsing reverses it.
+  The layout re-flows with a smooth transition, never a hard jump.
+- **Momentum pan and animated zoom.** Dragging the canvas has a little inertia; zooming eases.
+  A "reset view" gently animates back to the framed default.
+- **Active-node pulse.** The node currently open in the detail panel gets a soft pulsing ring,
+  and its edge chain back to the center animates (brighter, flowing) so the reader can trace it.
+- Respect `prefers-reduced-motion`: drop the idle drift and edge flow, keep only quick opacity
+  fades on expand.
+
+**It goes deep (four logical levels).** A flat two-level map is not enough. Branch out to
+subtopics and their details, but only where the book genuinely has that structure. Never invent
+branches to fill space; depth must be real.
+
+- **L0 Center — Thesis.** One node, the book's core argument.
+- **L1 Branch — Major ideas.** The 3-7 load-bearing frameworks radiating from the center.
+- **L2 Sub-branch — Subtopics.** Each major idea splits into its 2-5 real components,
+  mechanisms, or steps. This is the level the current output is missing.
+- **L3 Leaf — Details & boundaries.** Under a subtopic: the specific evidence, example,
+  technique, or the condition where it breaks down.
+
+Deeper levels are collapsed by default. The reader opens a branch to reveal its subtopics, opens
+a subtopic to reveal its details, so the map grows on demand and never overwhelms. Node size and
+weight step down by level (bigger/bolder at the center, smaller toward the leaves).
+
+**L0 Center node (Thesis)**
 ```
 Container: bg-[surface-dark] rounded-2xl px-6 py-4 shadow-lg
 Text: heading-2, text-on-dark, text-center, max-w-xs
 Ring: 3px solid [accent-violet], plus a soft radial violet glow behind it
 Icon: small Sparkles or Target icon above the text
+Motion: slow idle float; the whole map orbits gently around this anchor
 ```
 
-**Branch node (Major idea)**
+**L1 Branch node (Major idea)**
 ```
 Container: bg-white rounded-xl px-5 py-3 shadow-md border-2 border-[accent-violet]/25
   cursor-pointer, hover: shadow-lg -translate-y-0.5 border-[accent-violet]/50
 Text: heading-3, text-primary, with a 20px leading icon in an accent-soft circle
-Count badge: small pill showing how many sub-ideas are inside (e.g., "3")
+  Give each branch its own accent (cycle the palette) so the map is colorful, not all violet
+Count badge: small pill showing how many subtopics are inside (e.g., "4")
 Expand affordance: ChevronDown that rotates 180deg when open
-Active state (currently open in the panel): ring-2 ring-[accent-violet], bg-[accent-violet-soft]
+Active state (open in the panel): ring-2 ring-[branch accent], pulsing ring
 ```
 
-**Leaf node (Detail / boundary)**
+**L2 Sub-branch node (Subtopic)**
 ```
-Container: bg-[accent-violet-soft] rounded-lg px-4 py-2.5 shadow-sm cursor-pointer
-  hover: bg-[accent-violet-soft] brightness-95
-Text: body-small, text-primary
+Container: bg-[branch accent-soft] rounded-lg px-4 py-2.5 shadow-sm cursor-pointer
+  hover: brightness-97, -translate-y-0.5
+Text: body-small font-semibold, text-primary, optional 16px leading icon
+Count badge: tiny pill if it has L3 details inside
+Inherits its parent branch's accent so a whole limb of the map reads as one color family
 ```
 
-**Edges (connector lines)**
+**L3 Leaf node (Detail / boundary)**
 ```
-Render: single SVG overlay sitting under the nodes (absolute, full-size, pointer-events-none)
-Path: cubic-bezier curves from parent center to child center
-Stroke: 2px for center→branch, 1.5px for branch→leaf, [accent-violet] at 30-45% opacity
-Active path: when a node is open, its full chain back to the center is stroked at full
-  [accent-violet] and slightly thicker, so the reader can trace where they are
-No arrowheads: the layout radiating from the center implies direction
+Container: bg-white rounded-md px-3 py-2 shadow-sm border border-[branch accent]/20 cursor-pointer
+Text: caption/body-small, text-primary
+The smallest, lightest node. Sits at the tips of the limbs.
+```
+
+**Edges (animated connector lines)**
+```
+Render: single SVG overlay under the nodes (absolute, full-size, pointer-events-none)
+Path: cubic-bezier curves from parent center to child center, recomputed as nodes drift
+Stroke width steps down by level: 2.5px L0→L1, 2px L1→L2, 1.5px L2→L3
+Color: each limb uses its branch accent at 30-45% opacity
+Flow animation: animated stroke-dashoffset gives a slow traveling-dash flow along each edge
+  (or a gradient pulse parent→child). Subtle, continuous.
+Active path: when a node is open, its whole chain to the center brightens to full accent,
+  thickens slightly, and flows faster, so the reader can trace their position
+No arrowheads: the radial layout implies direction
 ```
 
 **Canvas behavior**
 ```
-Container: relative, min-h-[520px] on desktop, rounded-2xl bg-white/60 backdrop-blur-sm
-Pan: drag to move the canvas (pointer + touch)
-Zoom: scroll / pinch, clamped 0.6x–1.6x, with small +/- and "reset view" icon buttons
-Mobile fallback: if the viewport is too small to lay nodes out cleanly, collapse to an
-  indented, expandable tree that keeps the same click-into-topic behavior
+Container: relative, min-h-[560px] on desktop, rounded-2xl bg-white/60 backdrop-blur-sm,
+  overflow-hidden, with a faint dot-grid background
+Idle motion: nodes drift on a slow per-node sine offset; edges follow. requestAnimationFrame
+  loop, paused when prefers-reduced-motion is set
+Pan: drag with a little inertia (pointer + touch)
+Zoom: scroll / pinch, clamped 0.6x-1.8x, eased; small +/- and animated "reset view" buttons
+Auto-layout: children lay out on a radial/force-lite arrangement around their parent; when a
+  branch opens, siblings ease apart to make room (transition, never a hard jump)
+Mobile fallback: below a usable width, collapse to an indented, expandable multi-level tree that
+  keeps the same click-into-topic behavior and the same four levels
 ```
 
 **Node detail panel (opens on node click)**
@@ -546,6 +624,67 @@ Active indicator: 4px dot below the icon, bg-[accent-indigo], rounded-full
   live so no one is forced through linearly.
 
 ---
+
+### 7.9 Reference Patterns (build these often)
+
+These are the signature compositions from the reference dashboards. Use them on overview,
+dashboard, mind map, and section-landing screens to hit the graphical density the look requires.
+
+**Stat-card grid** — the hero pattern. A row or 2x2 of colored cards, each a different accent.
+```
+Grid: grid grid-cols-2 md:grid-cols-4 gap-4
+Card: rounded-2xl p-5, one of the section 2.5 colored backgrounds
+  Top: 40px rounded icon chip (white/20 on color, or accent-full on white)
+  Number: stat-number (30px+ bold)
+  Label: caption, below the number
+  Optional: a +/- change pill in the corner ("+13.3%", "-4%")
+Use for: "at a glance" counts (principles, chapters, quiz score, time), and to break up text.
+```
+
+**Black feature card** — the emphasis block.
+```
+Container: bg-[#0F0F14] rounded-2xl p-6 shadow-md, text-on-dark
+Layout: title + supporting line on the left, an inline-SVG illustration or a cluster of small
+  stat chips (e.g. "Lessons 8 / Hours 23") on the right
+Optional: a bright badge in the corner (a discount-style pill, a "NEW", a percent)
+CTA: white pill button
+Use for: the single most important thing on a screen — a milestone, a featured deep dive,
+  the "if you remember nothing else" teaser, the AI/helper panel.
+```
+
+**Floating pill nav bar** (desktop alternative to the side rail).
+```
+Container: mx-auto w-fit bg-white rounded-full shadow-md px-2 py-2 flex gap-1
+Item: px-4 py-2 rounded-full flex items-center gap-2
+  Default: text-secondary
+  Active: bg-[accent-soft] text-[accent-deep] (or bg-[surface-dark] text-white)
+  Icon: 18px left of label
+Sits centered near the top, floating over the canvas. Mirrors the reference top nav.
+```
+
+**Category chip row** — filter/lens selector.
+```
+Row: flex gap-2 overflow-x-auto
+Chip: px-4 py-2 rounded-full flex items-center gap-2, 16px icon + label
+  Active: bg-[#0F0F14] text-white (black active chip, per the references)
+  Inactive: bg-white border border-gray-200 text-secondary
+Use for: switching mind-map lens, filtering principles, quiz categories.
+```
+
+**KPI ring cluster** — progress shown as rings, not text.
+```
+Row of 1-3 circular progress rings (see 7.4), each with its number centered and a caption below.
+Multi-arc ring (like the reference RUN ring): stack 2-3 colored arcs on one circle for
+  layered progress (e.g. read / quizzed / mastered).
+```
+
+**Roadmap / Gantt timeline** — for the chapter or learning path.
+```
+A horizontal time axis (labels along the bottom) with colored rounded-full bars placed on
+  lanes, each bar an icon + label + duration, colors cycling the accent palette. Avatar stacks
+  can sit on a bar. Mirrors the reference "Roadmap". Great for the story-arc timeline (Method 10)
+  and the chapter index.
+```
 
 ## 8. Layout System
 
@@ -681,26 +820,40 @@ directly on the marks where you can, so the reader doesn't hunt through a legend
 
 ### 10.2 Chart Styles
 
-**Bar charts:**
-- Bars: rounded-top (`rx: 6`), solid fill with primary accent
-- Width: 60% of available space (generous gaps between bars)
-- Background grid: Horizontal lines only, `stroke: #E5E7EB`, `stroke-dasharray: 4 4`
-- Labels: caption style, text-secondary
+**Bar charts (reference style):**
+- Bars: fully rounded (`rx: 12`+, pill-like), solid fill with the accent. Tall and confident.
+- Width: 55-60% of the slot (generous gaps).
+- Striped backdrop: behind each bar, a faint full-height column with diagonal hatching
+  (`#E5E7EB` at low opacity), exactly like the HealthyLife activity chart. This is a signature.
+- Highlight bar: the focus bar is a deeper/brighter accent with a black tooltip pill above it.
+- Labels: caption style, text-secondary, along the bottom axis.
+
+**Black tooltip pill (signature):** the value callout floating over a chart is a dark pill,
+`bg-[#0F0F14] text-white rounded-full px-3 py-1.5`, showing an icon + value (e.g. a small
+figure "13,000" and a flame "2120Kcal"). Use it on the focus point of bar/line charts.
 
 **Donut charts:**
-- Stroke-width: 24px (thick, substantial ring)
-- Gap between segments: 3px (white gaps)
-- Center: Large stat number + small caption label
-- Legend: Below or right, using dot + label format
+- Stroke-width: 22-26px (thick, substantial ring), 3px white gaps between segments.
+- Center: large stat number + caption, or a small icon.
+- Legend: to the side, each row a colored dot pill + percent + label (reference "My Activity").
+- Segments cycle the accent palette (black, orange, blue, gray is the reference mix).
+
+**Progress rings:** one or more arcs on a circle; support a multi-arc ring (2-3 stacked colored
+arcs) like the reference RUN gauge. Center holds the number + a small icon.
 
 **Line and area charts:**
-- Line: 2px stroke, accent color, rounded joins
-- Dots: Hidden by default, shown on hover (6px circle)
-- Area fill: Gradient from accent/10 at top to transparent at bottom
-- Contrast elements: colored vertical markers for key moments or anomalies
+- Line: 2px stroke, accent, rounded joins. Area fill: gradient accent/10 to transparent.
+- Dots hidden until hover (6px). Colored vertical markers for key moments.
 
-**Tooltips:** rounded-xl white card, shadow-md, caption label + bold value. Never the default
-recharts tooltip.
+**Candlestick / range chart (heart-rate style):** thin rounded vertical bars of varying height
+and vertical position, colored in a three-tone mix (near-black, accent, muted gray) with a
+floating value pill, for any "compare distribution over time" idea. Straight from the
+HealthyLife heart-rate panel.
+
+**Gantt / roadmap timeline:** see pattern 7.9. Rounded-full colored bars on lanes over a time
+axis; use for chapter paths and story arcs.
+
+**Tooltips:** rounded-xl white card OR the black pill above. Never the default recharts tooltip.
 
 ### 10.3 Infographic Patterns
 
@@ -752,10 +905,15 @@ Connectors: SVG overlay with cubic-bezier path elements
   No arrowheads (radial layout implies direction)
 Animation: child nodes fade + slide from the parent's position (stagger 100ms) on expand
 Interaction:
-  Click a branch node → expand/collapse its leaves
+  Click a branch → reveal its subtopics; click a subtopic → reveal its details (4 levels)
   Click any node → open the node detail panel (drawer/sheet) for that topic
-  Drag to pan, scroll/pinch to zoom (clamp 0.6x–1.6x), reset-view button
+  Drag to pan (with inertia), scroll/pinch to zoom (clamp 0.6x-1.8x), reset-view button
+Motion (required): slow idle node drift, flowing dashed/gradient edges, spring expand/collapse,
+  active-path highlight. Pause motion under prefers-reduced-motion.
 ```
+
+The animated, four-level behavior is specified in full in Component Library section 7.6. The map
+must move and must branch into subtopics — a frozen two-level map is a failure.
 
 ---
 
@@ -912,12 +1070,25 @@ The references feature subtle decorative elements on feature screens:
 
 ### 15.2 Illustration You Should Include
 
-Lean into graphics. The companion should feel illustrated, not just laid out.
+Lean hard into graphics. The companion should feel illustrated, like the reference apps, not
+just laid out.
 
-- Inline-SVG illustrations, diagrams, metaphors, and infographics: yes, build these liberally.
-- Icons (Lucide) on most cards, and emoji as large visual anchors: yes.
-- Simple hand-built SVG "reaction" graphics for the occasional levity/meme card: yes, sparingly.
-- Charts and data viz (recharts + SVG): yes, several per companion.
+- **Line-art doodle illustrations.** The references use black single-weight line drawings:
+  a running figure, a person reading on a stack of books, scattered doodle icons (eye, heart,
+  sparkle, lightbulb, gear, ruler, cube, musical note). Build these as inline SVG and use them
+  on section intros, empty states, bookends, and hero cards. A cluster of small black doodle
+  icons around a heading is a signature reference move.
+- **Mascot / avatar.** A friendly character (a simple SVG mascot, or an emoji-in-a-colored-circle
+  avatar) that greets the reader and reappears at milestones adds personality. The references
+  lean on a bespectacled book-loving character. You do not need photorealism; a clean SVG or a
+  big emoji avatar works.
+- **Inline-SVG diagrams, metaphors, and infographics:** build liberally.
+- **Icons (Lucide) on most cards, emoji as large visual anchors:** yes.
+- **Simple SVG "reaction" graphics** for the occasional levity/meme card: yes.
+- **Charts and data viz (recharts + SVG):** several per companion.
+
+Illustrations can be tinted with the accent palette and sit on colored or black cards, exactly
+as the references do (pink hero card with a black line drawing, blue card with a doodle).
 
 ### 15.3 What NOT to Include
 
@@ -955,6 +1126,17 @@ If dark mode is explicitly requested by the user in the future, the mapping woul
 ## 17. Anti-Patterns — What to Avoid
 
 These are the things that will make the companion look generic or broken. Avoid at all costs.
+
+**The two worst failures (reviewers hit these repeatedly):**
+
+- **Text-heavy screens.** A screen that is mostly paragraphs and plain cards, with no chart,
+  colored stat grid, illustration, or diagram. This is the #1 complaint. Every screen needs
+  real graphics carrying it. If you wrote three paragraphs and no visual, stop and add visuals.
+- **A static or shallow mind map.** If the map does not move (no idle drift, no flowing edges,
+  no spring on expand) it reads as dead. If it stops at two levels, it is too shallow. It must
+  animate and it must branch into subtopics and details (four logical levels).
+
+**The rest:**
 
 1. **Pure white (#FFFFFF) full-page background.** Always use the periwinkle canvas.
 2. **Sharp corners on cards.** Never below `rounded-xl` (12px) for any container.

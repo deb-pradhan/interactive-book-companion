@@ -93,34 +93,44 @@ Below is how each method translates into a concrete component of the interactive
 
 ### Method 1: Macrostructure Extraction → Interactive Mind Map Flow Diagram
 
-Build a real node-and-edge flow diagram, not a stack of tabs or cards. The whole point is to
-show how the ideas connect and branch out from each other, so the reader can see the shape of
-the book at a glance and trace how one idea leads to the next.
+Build a living, animated node-and-edge flow diagram, not a stack of tabs or cards and not a
+frozen picture. The point is to show how the ideas connect and branch out, so the reader sees
+the shape of the book at a glance and can trace how one idea leads to the next. It is the visual
+centerpiece of the companion, so make it deep and make it move.
 
-- **Center node (Thesis):** One node in the middle holding the book's central argument in a
-  sentence.
-- **Branch nodes (Major ideas):** The 3–7 big ideas radiate out from the center, each on its
-  own branch. Draw curved connector lines (edges) between nodes. Where one idea feeds into
-  another, connect them directly so the causal flow is visible, not just implied.
-- **Leaf nodes (Details & boundaries):** Each major idea can expand to show its evidence,
-  examples, and where it stops working. Collapsed by default so the map stays readable.
+**Four logical levels of depth.** A two-level map is too shallow. Branch out into subtopics and
+their details, but only where the book genuinely has that structure. Never add branches to fill
+space; every branch must be real.
 
-How it behaves:
+- **Center (Thesis):** one node holding the book's central argument.
+- **Branch (Major ideas):** the 3-7 load-bearing frameworks radiating from the center. Connect
+  them to each other where one genuinely feeds another, so the causal flow is visible.
+- **Sub-branch (Subtopics):** each major idea splits into its 2-5 real components, mechanisms,
+  or steps. This is the level the output has been missing. Add it.
+- **Leaf (Details & boundaries):** under a subtopic, the specific evidence, example, technique,
+  or the condition where the idea breaks down.
 
-- **Every node is clickable.** Clicking a node opens that topic in a detail panel (a side
-  drawer on desktop, a full sheet on mobile) where the reader can go deep: the plain-language
-  explanation, the visual for that idea, and jump-links to its principle card, case study, and
-  retrieval challenge. The map is the reader's home base for exploring any topic.
-- **Expand and collapse branches.** Clicking a branch node reveals or hides its leaf nodes,
-  with the connector lines animating in. The reader controls how much they see.
-- **Pan and zoom.** On desktop the reader can drag to pan and scroll to zoom. On mobile the
-  map is pinch-zoomable or falls back to a clean collapsible tree.
-- **Active-node highlighting.** The node the reader is currently exploring stays highlighted,
-  and its path back to the center thesis lights up, so they never lose the thread.
+Deeper levels stay collapsed until opened, so the map grows on demand instead of overwhelming.
 
-The reader starts zoomed out on the thesis and opens only the branches they care about. The
-map doubles as the primary way to navigate the whole companion: click a topic, dive in, come
-back to the map.
+**It moves.** The map is never static:
+
+- Nodes drift with a slow, gentle idle motion so the whole thing breathes.
+- Edges carry a flowing animation (a traveling dashed line or a gradient pulse) from parent to
+  child, so direction reads and the diagram feels alive.
+- Opening a branch springs its children outward; the layout re-flows smoothly, never snapping.
+- Panning has a little inertia; zooming eases.
+- The node being explored gets a soft pulsing highlight, and its path back to the center lights
+  up and flows faster so the reader never loses their place.
+- Honor reduced-motion preferences: drop the drift and flow, keep quick fades.
+
+**It is the navigation hub.** Every node is clickable and opens that topic in a detail panel (a
+side drawer on desktop, a bottom sheet on mobile): the plain-language explanation, the visual or
+chart for that idea, and jump-links to its principle card, case study, and retrieval challenge.
+The reader starts zoomed out on the thesis, opens the limbs they care about, dives into a topic,
+and comes back to the map. Give each limb its own accent color so the map reads as colorful.
+
+The full animated, four-level component spec (nodes per level, animated edges, canvas physics,
+detail panel) is in the design system, section 7.6. Follow it.
 
 ### Method 2: Compression Through Abstraction → Principle Cards
 
@@ -266,6 +276,10 @@ Produce the companion as a **single React (.jsx) artifact** saved to `/mnt/user-
   map edges, pictographs, custom infographics), hand-build it with inline SVG.
 - Use smooth transitions and micro-animations for step changes, card flips, node expansion,
   and reveals.
+- The mind map must be genuinely animated: idle node drift and flowing edges via a
+  `requestAnimationFrame` loop (or CSS keyframes), spring easing on expand/collapse, eased
+  pan/zoom. `framer-motion` is fine if available, but CSS + rAF is enough. Gate all of it behind
+  `prefers-reduced-motion`.
 - Responsive: must work on both desktop and mobile viewports.
 - Include a persistent navigation component (see UX Architecture below) so the reader can jump
   to any part of the companion at any time.
@@ -318,24 +332,31 @@ radius rules, typography scale, interaction states, animation timing, and anti-p
 design system is derived from best-in-class learning and wellness interfaces and follows five
 core principles:
 
-1. **Soft periwinkle canvas** (#E0E4F7) — never pure white backgrounds. Cards float on it.
-2. **Card-first architecture** — every piece of content lives in a white card with generous
-   radius (rounded-2xl / 16px), soft cool-tinted shadows, and ample padding (p-6 to p-8).
-3. **Color as functional language** — each method type has a dedicated accent color (indigo
-   for quizzes, amber for predictions, rose for case studies, violet for principles, emerald
-   for success). The reader learns the vocabulary in the first two minutes.
-4. **One focus at a time** — stepper screens show one concept. Quiz screens show one question.
-5. **Friendly authority** — pill-shaped dark CTAs, 18px minimum body text, generous whitespace.
+1. **Soft periwinkle canvas** (#E0E4F7) — never pure white backgrounds. Cards and charts float on it.
+2. **Card-first, and cards are colorful** — content lives in cards with generous radius
+   (rounded-2xl), soft shadows, ample padding. But cards are not all white: grids of vivid
+   pastel cards (yellow, blue, pink, lavender) sit side by side, with black feature cards for
+   punch, exactly like the reference dashboards.
+3. **Graphical by default** — charts, donuts, progress rings, timelines, colored stat grids,
+   icons in colored circles, mascots, and line-art doodles do the teaching. Reach for a visual
+   before a paragraph.
+4. **Color is loud and functional** — each method keeps its signature accent, but the palette is
+   used generously and all at once. A single screen routinely shows four or five accents. That
+   is the look.
+5. **Playful personality** — pill shapes, emoji anchors, 3D-style avatars, doodle illustrations,
+   and witty copy. Warm and fun, not a textbook.
 
-Every hex value, every shadow spec, every component variant, every responsive breakpoint,
-every anti-pattern to avoid is in the design system file. Follow it literally.
+Every hex value, every shadow spec, every component variant, every reference pattern (stat-card
+grid, black feature card, floating pill nav, gantt timeline), every animation, every
+anti-pattern is in the design system file. Follow it literally.
 
-**Make it a joy to look at.** Text, cards, and quizzes alone are not enough. Every section
-should give the eye something to land on: a chart, an infographic, a diagram, an icon grid, a
-big stat, a small illustration, an emoji used as a visual anchor, or the occasional meme-style
-levity card. The design system's data visualization, infographic, and iconography sections
-tell you exactly how to build these on the periwinkle canvas without making it noisy. When a
-screen is all words, you have missed the point. Reach for a graphic first.
+**Make it graphical. This is the thing reviewers keep flagging.** Text, plain cards, and
+quizzes alone are not enough, and the output keeps coming back too text-heavy. Overcorrect.
+Every screen must be carried by real visuals, not decorated with one. Concretely, an overview
+or section-landing screen should have several of: a colored stat-card grid, a chart or donut,
+progress rings, a black feature card, an illustration or mascot, a gantt/timeline, icon chips.
+If you wrote a few paragraphs and added no chart, stat grid, or illustration, the screen is
+wrong. Rebuild it around a graphic. Match the reference dashboards' density, not a document's.
 
 ### Write Like a Human, Not a Textbook
 
@@ -411,12 +432,16 @@ Every companion must pass these checks:
 
 - [ ] Opening bookend would give someone the core message even if they read nothing else
 - [ ] Schema activation quiz uses genuinely familiar domains, not the book's own jargon
-- [ ] The mind map is a real node-and-edge flow diagram with visible connections, not tabs or
-      a card stack, and every node opens a topic deep dive when clicked
+- [ ] The mind map is a real node-and-edge flow diagram that ANIMATES (idle drift, flowing
+      edges, spring expand) and branches four logical levels deep (thesis → idea → subtopic →
+      detail), and every node opens a topic deep dive when clicked
 - [ ] A persistent navigation lets the reader jump to any section from anywhere
 - [ ] Each principle card passes the "could I reconstruct the details from this?" test
 - [ ] Visual frameworks use the correct diagram type for the concept's structure
-- [ ] The companion has several real charts or infographics, not just text and cards
+- [ ] Every screen is carried by real graphics (charts, colored stat grids, rings,
+      illustrations, timelines), not paragraphs. No screen is mostly text.
+- [ ] The look matches the reference dashboards: colored card grids, black feature cards,
+      pill nav/chips, mascot or line-art illustrations, dense charts
 - [ ] Icons, emojis-as-anchors, and small graphics carry meaning throughout the interface
 - [ ] Stepper introduces exactly one new concept per step
 - [ ] Case studies have genuinely different domains for the transfer example
