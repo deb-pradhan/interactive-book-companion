@@ -389,6 +389,17 @@ progress rings, a black feature card, an illustration or mascot, a gantt/timelin
 If you wrote a few paragraphs and added no chart, stat grid, or illustration, the screen is
 wrong. Rebuild it around a graphic. Match the reference dashboards' density, not a document's.
 
+**Design to win an award, not just to be clean.** The bar is Awwwards Site of the Day. Judge
+your own build on the four criteria an Awwwards jury uses: Design (40%), Usability (20%),
+Creativity (20%), Content (20%). That means award-level craft, all detailed in the design system:
+fluid, tightly-tracked kinetic typography (not fixed 36px headings); a real motion system on the
+exact easing curves (`--ease-out` `cubic-bezier(0.16,1,0.3,1)`, spring, in-out) with a load-in
+sequence, counting stats, scroll/view reveals, and drawing charts; generous, varied negative
+space and section rhythm; considered neutrals and never pure black or white; and a few signature
+details (a finish moment, crisp focus states, polished empty states). Generic is failure: if a
+screen could be any app's screen, it isn't done. See design-system section 18 for the full
+award-level craft guide and the self-score rubric, and hold the output to it.
+
 ### Write Like a Human, Not a Textbook
 
 All the copy in the companion — explanations, quiz prompts, card headlines, button labels,
@@ -517,11 +528,17 @@ Every companion must pass these checks:
 - [ ] No jargon appears without an immediate plain-language definition or analogy
 - [ ] The companion works on mobile viewports
 
-**Final gate:** the full functional QA pass in `references/qa-checklist.md` is green. Every
-section, flow, and component has been tested (driven live where possible, traced by hand
-otherwise), the console is clean, and there are no known bugs. Do not present the companion
-until this holds. A companion that looks right but has a dead button, an unclickable node, or an
-empty chart has failed.
+**Final gate — two parts, both required:**
+
+1. **Functional QA** (`references/qa-checklist.md`) is fully green: every section, flow, and
+   component tested (driven live where possible, traced by hand otherwise), console clean, no
+   known bugs. A companion that looks right but has a dead button, an unclickable node, or an
+   empty chart has failed.
+2. **Design self-score** (design-system section 18.4): honestly rate the build on the four
+   Awwwards axes — Design, Usability, Creativity, Content. If any axis would not make an awards
+   jury nod, it is not done. Refine the typography, spacing, motion, and distinctiveness until it
+   reads as award-level, then ship. A competent-but-generic build has failed the design bar even
+   if every button works.
 
 ---
 
@@ -794,6 +811,15 @@ paragraphs, it is wrong. Every view should be carried by charts, colored cards, 
 illustrations, progress rings, and stats, with text as the supporting layer. Reviewers keep
 saying the output feels text-heavy. Overcorrect toward visuals.
 
+**The bar is Awwwards Site of the Day.** The companion should look good enough to win a web
+design award, not just "clean." Judge every screen the way an Awwwards jury does, on four axes:
+craft/design (is the typography, spacing, and color genuinely refined?), usability (is it
+obvious and effortless?), creativity (does it feel distinctive, or like a template?), and
+content (is the writing and information design sharp?). **Generic is failure.** If a screen
+could be any app's screen, redesign it until it could only be this one. Section 18 spells out
+the award-level craft: fluid kinetic typography, a real motion system, considered negative
+space, and signature details. Hold the output to that bar.
+
 ---
 
 ## 1. Design Philosophy
@@ -928,7 +954,27 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica N
 
 The references show a rounded, geometric sans-serif with friendly letterforms. If importing
 a web font is possible, use **Inter** (body) and **Plus Jakarta Sans** (headings). If not,
-the system stack provides an excellent approximation.
+the system stack provides an excellent approximation. Use at most two families (a display and a
+body); a monospace is allowed only for numbers in data readouts. Do not link a web font that
+might silently fail (blocked CDN); if you cannot guarantee it loads, use the system stack.
+
+### 3.1a Fluid, kinetic display type (award-level)
+
+Award-winning type is fluid and confident, not a fixed 36px heading. Big moments (the book
+title, the "3 sentences" bookend, section landings) should scale with the viewport and carry
+tight tracking and leading, so they read as designed, not defaulted.
+
+- **Fluid sizing with `clamp()`**, never breakpoint-swapped font sizes. Hero/book title:
+  `clamp(2.5rem, 7vw, 6rem)`. Section landing headline: `clamp(1.75rem, 4vw, 3rem)`.
+- **Display tracking is tight:** `-0.03em` on the largest type, easing to `-0.01em` at heading
+  sizes. **Display leading is tight:** `0.95` to `1.05` for multi-line hero text.
+- **Uppercase eyebrow labels get positive tracking:** `0.08em` to `0.12em`, small size, medium
+  weight. This is the single cheapest way to look premium.
+- **Body stays calm:** 18px, line-height ~1.6, tracking `-0.005em`. Keep reading measure near
+  60-70 characters (`max-w-2xl`).
+- **Balance headlines:** `text-wrap: balance` on headings so lines break evenly.
+- Optional kinetic touch on the opening title only: a one-time, staggered line/word reveal on
+  load (see section 11). One considered moment, not everywhere.
 
 ### 3.2 Type Scale
 
@@ -936,7 +982,8 @@ Every text element in the interface maps to exactly one of these roles. No ad-ho
 
 | Role | Tailwind | Size | Weight | Line height | Letter spacing | Usage |
 |---|---|---|---|---|---|---|
-| `display` | `text-4xl` | 36px | 800 (extrabold) | 1.1 | -0.02em | Book title on opening bookend. One instance per companion. |
+| `display` | fluid | `clamp(2.5rem,7vw,6rem)` | 800 (extrabold) | 0.95-1.05 | -0.03em | Book title / hero. Fluid (see 3.1a). One or two instances per companion. |
+| `display-2` | fluid | `clamp(1.75rem,4vw,3rem)` | 800 | 1.05 | -0.02em | Section-landing headlines. Fluid. |
 | `heading-1` | `text-2xl` | 24px | 700 (bold) | 1.25 | -0.01em | Section titles ("Mind Map", "Key Principles", "Final Challenge"). |
 | `heading-2` | `text-xl` | 20px | 600 (semibold) | 1.3 | -0.005em | Card titles, principle headlines, quiz section headers. |
 | `heading-3` | `text-lg` | 18px | 600 (semibold) | 1.4 | 0 | Sub-headings within cards, step titles in the stepper. |
@@ -1702,16 +1749,54 @@ must move and must branch into subtopics — a frozen two-level map is a failure
 
 ## 11. Motion and Animation
 
-### 11.1 Timing
+Motion is what separates an award-level build from a static mockup, but only when it carries
+meaning. Every animation must answer one of: what just happened, what is important, or where
+should I look. If it answers none, cut it. No decorative movement for its own sake.
 
-| Transition type | Duration | Easing | Example |
-|---|---|---|---|
-| Micro-interaction | 150ms | ease-out | Button press, hover color change, chip select |
-| Element entrance | 250ms | ease-out | Card fade-in, step change, answer reveal |
-| Layout change | 350ms | ease-in-out | Expand/collapse, mind map node growth |
-| Page transition | 400ms | ease-in-out | Stepper step change (combined fade out + fade in) |
-| Emphasis | 600ms | spring (CSS: cubic-bezier(0.34, 1.56, 0.64, 1)) | Correct answer bounce, completion celebration |
-| Chart/data | 800ms | ease-out | Progress bar fill, donut chart draw-in, stat number count-up |
+### 11.1 Easing and timing (use these exact curves)
+
+Define these as CSS variables and use them everywhere. They are the difference between "default
+ease" and "designed."
+
+| Token | Curve | Use |
+|---|---|---|
+| `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` | The default for almost everything: entrances, reveals, hovers. Fast start, soft settle. |
+| `--ease-in-out` | `cubic-bezier(0.76, 0, 0.24, 1)` | Dramatic two-way transitions: page/section changes, drawer open. |
+| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Playful overshoot: correct-answer pop, milestone, mind-map node expand. |
+
+| Transition type | Duration | Easing |
+|---|---|---|
+| Micro (hover, press, chip) | 150ms | `--ease-out` |
+| Small entrance (card, answer reveal) | 250ms | `--ease-out` |
+| Layout change (expand/collapse) | 350-400ms | `--ease-spring` for playful, `--ease-in-out` for calm |
+| Section / page transition | 500ms | `--ease-in-out` |
+| Emphasis (celebration) | 600ms | `--ease-spring` |
+| Chart / counter draw-in | 800ms | `--ease-out` |
+
+Only ever animate `transform` and `opacity` (and `stroke-dashoffset`/`stroke-dasharray` for
+SVG). Never animate `width`, `height`, `top`, `left`, or `box-shadow` in a loop; they jank.
+Target 60fps.
+
+### 11.1b Signature motion moments (pick a few, do them well)
+
+Award sites are not "more animated" everywhere; they have a few orchestrated moments. Use these,
+each once or sparingly:
+
+- **Load-in sequence.** On first paint, reveal the opening screen as a short sequence: the
+  eyebrow, then the title (line-by-line or word-by-word stagger, ~40-60ms apart), then the
+  supporting text and CTA. Total under ~900ms. One time, on the bookend only.
+- **Scroll / view reveal.** As a section becomes active, its cards rise and fade in
+  (`translateY(24-30px)` to 0, opacity 0 to 1, 600-700ms, `--ease-out`), staggered 50-80ms
+  between siblings. Trigger once, do not re-animate on every scroll.
+- **Number counters.** Stat numbers count up from 0 to their value over ~800ms on first view
+  (requestAnimationFrame, ease-out). Static numbers look dead; counting ones feel alive.
+- **Hover micro-interactions.** Cards lift (`translateY(-2px)` + shadow step) on hover; buttons
+  press (`scale(0.97)`); chips and nav items shift color in 150ms. Desktop only; never leave a
+  hover state "stuck" on touch.
+- **Chart draw-in.** Bars grow from the baseline, donuts sweep, rings fill via `stroke-dashoffset`
+  over 800ms on first view.
+
+### 11.2 Entrance Animations (React)
 
 ### 11.2 Entrance Animations (React)
 
@@ -1729,14 +1814,21 @@ useEffect(() => { setVisible(true); }, []);
 <div className={`transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
 ```
 
-### 11.3 Reduced Motion
+### 11.3 Reduced Motion (a first-class experience, not an afterthought)
+
+`prefers-reduced-motion` is a real user need and an award criterion, not a checkbox. When it is
+set, the companion must be fully usable and still feel considered.
 
 ```jsx
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// Apply: skip all transform animations, keep opacity fades (shorter: 100ms)
-// Never skip: color changes, layout updates (these are instant anyway)
 ```
+
+- Drop all transform-based motion: no idle mind-map drift, no edge flow, no slide-in reveals,
+  no counters (show the final number immediately), no load sequence (show the final state).
+- Keep instant, essential feedback: color changes on select, layout updates, and very short
+  (100ms) opacity fades for context.
+- Nothing should ever be gated behind an animation. If a reveal is skipped, the content is just
+  there. Test this mode explicitly.
 
 ---
 
@@ -1940,6 +2032,81 @@ These are the things that will make the companion look generic or broken. Avoid 
     still feel deliberate. If a plain content screen looks like a paint sample, you've gone wrong.
 12. **Stacking multiple cards with the same visual weight.** Vary card sizes, colors, and
     content types to create rhythm.
+
+**Award-level anti-patterns (these read as "template" and cost you the score):**
+
+13. **Identical section rhythm.** Every section the same width, same padding, same header-then-
+    grid. Vary it: alternate full-bleed and contained, change vertical spacing, change structure.
+14. **Default everything.** Default border radius, default Tailwind gray/blue, default `ease`,
+    default system-ui at one weight. Every default you leave in is a place the design didn't get
+    made. Pick the curve, the neutral, the radius.
+15. **Pure black or pure white.** `#000`/`#fff` anywhere. Use `#0F0F14` and the periwinkle/near-
+    white tokens. Borders are low-opacity rgba (0.04-0.10), never solid gray lines.
+16. **Motion with no meaning.** Spinning, bouncing, parallax, or auto-rotating carousels that
+    don't answer "what/where/important." Also: `background-attachment: fixed` parallax (dated,
+    breaks on mobile), and hover effects that stick on touch.
+17. **Multiple animation libraries.** Pick one approach (CSS + requestAnimationFrame is plenty
+    here; framer-motion if available). Never load two.
+18. **No negative space.** Cramming every pixel. White space is what makes it look expensive.
+19. **A screen that could be any app.** If nothing about it says "this book, this idea," it's
+    generic, and generic is failure. Make it specific.
+
+---
+
+## 18. Award-Level Craft
+
+The goal is a companion that could win Awwwards Site of the Day, judged the way a jury judges:
+**Design 40%, Usability 20%, Creativity 20%, Content 20%.** Everything above serves this; here
+is how to hit the bar and how to check yourself.
+
+### 18.1 Art direction before pixels
+
+Before building, decide the feeling. Our vertical is learning, and our house style is the warm,
+playful, colorful periwinkle world of the reference dashboards. Within that, give each companion
+a hint of the book's own character: a finance book leans crisper and data-forward, a memoir
+leans warmer and more editorial, a science book leans brighter and more diagrammatic. Same
+design system, slightly different emphasis. It should feel made for this book.
+
+### 18.2 Negative space and rhythm
+
+- Let the periwinkle canvas breathe around content. Generous, uneven vertical spacing between
+  sections reads as confident; uniform tight spacing reads as a template.
+- Vary section structure: a wide bento overview, then a focused single-column stepper, then a
+  full-bleed timeline, then a centered bookend. Contrast is the point.
+- One clear focal point per screen. Everything else supports it.
+
+### 18.3 Signature details (the things juries notice)
+
+Sweat at least a few of these; they are what push a good build to an award-level one:
+
+- A short, orchestrated **load-in** on the opening screen (section 11.1b).
+- **Counting stat numbers** and **drawing charts** on first view.
+- A **custom cursor** or cursor-follow accent on desktop is optional and can be lovely, but only
+  if it stays subtle and is disabled on touch and under reduced motion.
+- Considered **empty and edge states** (a friendly line + small illustration, never a blank).
+- A **finish moment**: the closing "If you remember nothing else" bookend gets a small
+  celebration (confetti-free; a spring-in, a glow, a check) so completing feels earned.
+- Crisp **focus states** and keyboard support; accessibility is part of the craft score.
+
+### 18.4 Self-score before you ship
+
+Rate the build honestly on the four axes. If any is below "an awards jury would nod," fix it
+before presenting. This is separate from the functional QA in `qa-checklist.md` (which asks "does
+it work"); this asks "is it beautiful and distinctive."
+
+- **Design (40%):** Is the typography genuinely refined (fluid, tracked, hierarchical)? Is the
+  spacing considered? Are color and shadow deliberate? Would a designer respect it?
+- **Usability (20%):** Is the next action always obvious? Does it work one-handed on mobile? Is
+  it effortless?
+- **Creativity (20%):** Does it feel distinctive to this book, or like a template? Is there at
+  least one memorable, delightful moment?
+- **Content (20%):** Is the writing sharp and human? Is the information design (charts, map,
+  hierarchy) doing real work?
+
+If it scores like an 8+ on all four, ship it. If it's a competent 6, it isn't done.
+
+*(These principles are informed by public Awwwards judging criteria and general award-winning
+web-design practice.)*
 
 ---
 
@@ -2366,6 +2533,21 @@ so and say you traced it by hand instead.
 - [ ] The copy reads like a person: no AI-vocabulary, no em dashes, varied sentence length.
 - [ ] Every jump-link, "see the principle card", etc. points at something that exists.
 - [ ] No jargon without an immediate plain-language definition or analogy.
+
+### J. Award-level design polish (does it look like it could win, not just work)
+- [ ] Typography is fluid and tracked: the hero/book title uses `clamp()` and tight tracking,
+      not a fixed 36px; uppercase eyebrows have positive tracking; headings use `text-wrap:balance`.
+- [ ] Motion uses the design-system easing curves (not default `ease`), and every animation
+      earns its place (answers what/where/important). There is a load-in moment, counting stats,
+      and charts that draw in on first view.
+- [ ] No pure black (`#000`) or pure white (`#fff`) anywhere; borders are low-opacity rgba.
+- [ ] Section rhythm varies (spacing and structure change between sections); there is real
+      negative space; each screen has one clear focal point.
+- [ ] There is at least one memorable, delightful, book-specific moment; nothing looks like a
+      generic template.
+- [ ] Reduced-motion mode is fully usable and still considered.
+- [ ] Design self-score (section 18.4): Design / Usability / Creativity / Content each read as
+      an 8+ to an awards jury. If any is a competent 6, refine before shipping.
 
 ---
 

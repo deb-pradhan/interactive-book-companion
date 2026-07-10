@@ -10,7 +10,7 @@ This repo is **model- and platform-agnostic**. Use it with Claude, OpenAI GPTs, 
 
 - An **interactive mind map** built as a real flow diagram: ideas as nodes, connected by lines that show how the book branches out. Click any node to open that topic and go deep.
 - **Persistent navigation** so you can jump straight to the mind map, the quizzes, a specific idea, the challenges, or the final takeaway. You're never stuck on a one-way slideshow.
-- A **graphics-heavy** design: charts, infographics, stat callouts, icons, and emoji anchors instead of walls of text.
+- A **graphics-heavy**, **award-level** design: fluid kinetic typography, a real motion system (load-in reveals, counting stats, drawing charts), varied section rhythm, and considered negative space — held to an Awwwards Site of the Day bar, not just "clean." Charts, infographics, stat callouts, icons, and emoji anchors instead of walls of text.
 - Copy that **sounds like a person**, not an AI report.
 - The learning science underneath: retrieval practice, spaced structure, dual coding, the generation effect, and more.
 - A built-in **testing gate**: before a companion is delivered, the skill runs a full QA checklist over every flow, section, and component (nav, the mind map at all four levels, quizzes, charts, responsiveness) and only ships once it is verified bug-free. See [`skills/interactive-book-companion/references/qa-checklist.md`](skills/interactive-book-companion/references/qa-checklist.md).
@@ -97,6 +97,13 @@ The companion is generated using ten evidence-based learning techniques (retriev
 - Output quality scales with model capability. Frontier models produce the richest companions.
 - The universal prompt emits dependency-free vanilla HTML; the Claude skill emits React JSX (rendered natively by Claude artifacts).
 - For whole books, compress first (see [PIPELINE.md](PIPELINE.md)); for articles and excerpts, build straight from the text.
+
+## Acknowledgments
+The award-level design guidance in the design system is informed by public Awwwards judging
+criteria and general award-winning web-design practice, including the
+[claude-skill-awwwards](https://github.com/tponscr-debug/claude-skill-awwwards) skill. No code or
+text from that project is vendored here; only the underlying principles (fluid type, motion
+easing, negative space, self-scoring on the four Awwwards axes) were learned and re-expressed.
 
 ## License
 [MIT](LICENSE), free to use, modify, and redistribute. The vendored [`skills/book-to-skill/`](skills/book-to-skill/) is also MIT, © 2026 Vitaly Simonovich; its license travels with it in that folder.

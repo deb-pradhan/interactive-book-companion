@@ -358,6 +358,17 @@ progress rings, a black feature card, an illustration or mascot, a gantt/timelin
 If you wrote a few paragraphs and added no chart, stat grid, or illustration, the screen is
 wrong. Rebuild it around a graphic. Match the reference dashboards' density, not a document's.
 
+**Design to win an award, not just to be clean.** The bar is Awwwards Site of the Day. Judge
+your own build on the four criteria an Awwwards jury uses: Design (40%), Usability (20%),
+Creativity (20%), Content (20%). That means award-level craft, all detailed in the design system:
+fluid, tightly-tracked kinetic typography (not fixed 36px headings); a real motion system on the
+exact easing curves (`--ease-out` `cubic-bezier(0.16,1,0.3,1)`, spring, in-out) with a load-in
+sequence, counting stats, scroll/view reveals, and drawing charts; generous, varied negative
+space and section rhythm; considered neutrals and never pure black or white; and a few signature
+details (a finish moment, crisp focus states, polished empty states). Generic is failure: if a
+screen could be any app's screen, it isn't done. See design-system section 18 for the full
+award-level craft guide and the self-score rubric, and hold the output to it.
+
 ### Write Like a Human, Not a Textbook
 
 All the copy in the companion — explanations, quiz prompts, card headlines, button labels,
@@ -486,11 +497,17 @@ Every companion must pass these checks:
 - [ ] No jargon appears without an immediate plain-language definition or analogy
 - [ ] The companion works on mobile viewports
 
-**Final gate:** the full functional QA pass in `references/qa-checklist.md` is green. Every
-section, flow, and component has been tested (driven live where possible, traced by hand
-otherwise), the console is clean, and there are no known bugs. Do not present the companion
-until this holds. A companion that looks right but has a dead button, an unclickable node, or an
-empty chart has failed.
+**Final gate — two parts, both required:**
+
+1. **Functional QA** (`references/qa-checklist.md`) is fully green: every section, flow, and
+   component tested (driven live where possible, traced by hand otherwise), console clean, no
+   known bugs. A companion that looks right but has a dead button, an unclickable node, or an
+   empty chart has failed.
+2. **Design self-score** (design-system section 18.4): honestly rate the build on the four
+   Awwwards axes — Design, Usability, Creativity, Content. If any axis would not make an awards
+   jury nod, it is not done. Refine the typography, spacing, motion, and distinctiveness until it
+   reads as award-level, then ship. A competent-but-generic build has failed the design bar even
+   if every button works.
 
 ---
 

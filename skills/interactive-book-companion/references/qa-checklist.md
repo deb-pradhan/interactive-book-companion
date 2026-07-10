@@ -109,6 +109,21 @@ so and say you traced it by hand instead.
 - [ ] Every jump-link, "see the principle card", etc. points at something that exists.
 - [ ] No jargon without an immediate plain-language definition or analogy.
 
+### J. Award-level design polish (does it look like it could win, not just work)
+- [ ] Typography is fluid and tracked: the hero/book title uses `clamp()` and tight tracking,
+      not a fixed 36px; uppercase eyebrows have positive tracking; headings use `text-wrap:balance`.
+- [ ] Motion uses the design-system easing curves (not default `ease`), and every animation
+      earns its place (answers what/where/important). There is a load-in moment, counting stats,
+      and charts that draw in on first view.
+- [ ] No pure black (`#000`) or pure white (`#fff`) anywhere; borders are low-opacity rgba.
+- [ ] Section rhythm varies (spacing and structure change between sections); there is real
+      negative space; each screen has one clear focal point.
+- [ ] There is at least one memorable, delightful, book-specific moment; nothing looks like a
+      generic template.
+- [ ] Reduced-motion mode is fully usable and still considered.
+- [ ] Design self-score (section 18.4): Design / Usability / Creativity / Content each read as
+      an 8+ to an awards jury. If any is a competent 6, refine before shipping.
+
 ---
 
 ## Sign-off
