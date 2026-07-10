@@ -418,11 +418,44 @@ Read `/mnt/skills/public/frontend-design/SKILL.md` for design guidance, then bui
 artifact following the UX architecture above. The artifact should be substantial — a genuine
 learning experience, not a thin wrapper around bullet points.
 
-### Step 4: Present to the User
+### Step 4: Test everything — do not skip this
+
+**The companion is not done when it is written. It is done when it is verified.** This is a hard
+gate, not a nice-to-have. Reviewers keep finding bugs that a proper test pass would have caught:
+a mind map whose nodes did not respond to clicks because the pan handler was swallowing the
+event, charts rendering empty, a nav item that went nowhere. Never present a companion you have
+not driven.
+
+Read `references/qa-checklist.md` and follow it:
+
+1. **Build a test plan specific to this companion.** Copy the master checklist and fill in the
+   real components you built: list every nav item, every mind map node, every quiz, every chart.
+   A generic pass is not enough; enumerate the actual flows, sections, and components.
+2. **Verify every item.**
+   - If you can run a browser (you are in Claude Code or have a browser tool): serve the file,
+     open it, and actually drive it. Click every nav item, expand every mind map branch at all
+     four levels, open and close every detail panel, answer every quiz, submit, resize to a
+     375px mobile viewport, toggle reduced motion. Read the console after each interaction. A
+     clean first render is not a pass; a driven interaction with a clean console is.
+   - If you cannot run a browser: trace every interaction through the code as an adversary. For
+     each handler, confirm it is actually reachable (nothing overlays it, nothing captures the
+     pointer first, it is not `pointer-events:none`), that it reads and writes the right state,
+     and that the state renders. Read the code trying to make each control fail.
+3. **Fix and re-test.** Any failure: fix it, then re-verify the affected checks (a fix can break
+   something else). 
+4. **Loop until green.** Do not stop at "mostly works" and do not ship a known bug with a caveat.
+   Keep fixing and re-testing until every applicable box is checked.
+
+Only when the checklist is fully green do you move on. Track it with a real checklist (for
+example TodoWrite) so nothing is skipped.
+
+### Step 5: Present to the User
 
 Save to `/mnt/user-data/outputs/[book-name]-companion.jsx` and present the file. Give a brief
-orientation: what the companion contains, how to navigate it, and approximately how long it
-takes to complete.
+orientation: what the companion contains, how to navigate it, and roughly how long it takes.
+State the test result honestly: what you verified, whether you drove it live or traced it by
+hand, and confirm the console was clean. If a real environmental limit blocked one check, name
+that check specifically rather than glossing over it.
 
 ---
 
@@ -452,6 +485,12 @@ Every companion must pass these checks:
 - [ ] The full experience takes 15-30 minutes to complete (for a full book)
 - [ ] No jargon appears without an immediate plain-language definition or analogy
 - [ ] The companion works on mobile viewports
+
+**Final gate:** the full functional QA pass in `references/qa-checklist.md` is green. Every
+section, flow, and component has been tested (driven live where possible, traced by hand
+otherwise), the console is clean, and there are no known bugs. Do not present the companion
+until this holds. A companion that looks right but has a dead button, an unclickable node, or an
+empty chart has failed.
 
 ---
 
