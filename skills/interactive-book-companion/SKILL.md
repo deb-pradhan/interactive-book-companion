@@ -48,6 +48,42 @@ Whatever the source, your first step is always: **read and deeply understand the
 before producing anything. Do not start generating the companion until you have a clear mental
 model of the entire work.
 
+### Big books: compress first, then build
+
+A full-length book is often too large to hold in context at once. A 300-page PDF or EPUB can run
+past the window, and stuffing the whole thing in is where quality quietly falls apart. So for
+anything book-sized, run a compression pass first and build the companion from the compressed
+knowledge, not the raw file.
+
+Use the bundled **book-to-skill** pipeline (in `skills/book-to-skill/`, vendored from
+[the-knowledge-guy](https://github.com/vitalysim/the-knowledge-guy), MIT). It runs a map-reduce
+over the book and produces a small, structured knowledge base:
+
+- **Tier 1 (`SKILL.md`):** the thesis, a concept map, the 6-10 load-bearing frameworks, a
+  chapter index, and a topic index. A few thousand tokens for the whole book.
+- **Tier 2 (`chapters/*.md`):** a ~1,000-token toolkit per chapter (frameworks, techniques,
+  anti-patterns, examples), plus `nutshell.md`, `glossary.md`, `patterns.md`, and `cheatsheet.md`.
+
+The flow:
+
+1. **Compress.** Run book-to-skill on the uploaded PDF or EPUB. In Claude Code that is
+   `/book-to-skill /path/to/book.pdf`. Under the hood it extracts the text with
+   `skills/book-to-skill/scripts/extract.py` (PyMuPDF / ebooklib), then compresses.
+2. **Build from the compressed base.** Feed the companion generator the Tier 1 `SKILL.md` as
+   the backbone: the thesis becomes the opening bookend and the mind map's center, the
+   frameworks become the branch nodes and principle cards, the chapter index seeds the timeline
+   and the deep dives. Pull individual Tier 2 chapter files on demand when a topic needs more
+   depth (for a case study, a chart, or a retrieval challenge), instead of loading the whole book.
+3. **Note the source.** Tell the reader the companion was built from a compressed knowledge base
+   of the book, so they know the depth is faithful but distilled.
+
+If the source is small enough to read directly (a pasted excerpt, an article, a single chapter),
+skip compression and work from the text. Compression is for when the raw content would blow the
+context, which is most whole books. When book-to-skill isn't available (for example, a plain
+LLM with only a system prompt and no ability to run Python), fall back to compressing manually:
+chunk the book, extract the same structure from each chunk (thesis, frameworks, per-chapter
+toolkit, topic index), stitch the pieces into one Tier 1 base, then build from that.
+
 ---
 
 ## The Ten Methods — How They Map to the Output
