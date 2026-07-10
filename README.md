@@ -6,6 +6,8 @@ The output is a single self-contained interactive page the reader moves through 
 
 This repo is **model- and platform-agnostic**. Use it with Claude, OpenAI GPTs, Gemini, local models (Ollama / LM Studio), or agent frameworks like LangChain, CrewAI, and AutoGen.
 
+**See the look:** [`examples/design-preview.html`](examples/design-preview.html) is a live preview of the design system — a graphical dashboard and an animated, four-level mind map (built for *Atomic Habits*). Open it in a browser.
+
 ## What the generated companion gives you
 
 - An **interactive mind map** built as a real flow diagram: ideas as nodes, connected by lines that show how the book branches out. Click any node to open that topic and go deep.
