@@ -6,6 +6,14 @@ The output is a single self-contained interactive page the reader moves through 
 
 This repo is **model- and platform-agnostic**. Use it with Claude, OpenAI GPTs, Gemini, local models (Ollama / LM Studio), or agent frameworks like LangChain, CrewAI, and AutoGen.
 
+## What the generated companion gives you
+
+- An **interactive mind map** built as a real flow diagram: ideas as nodes, connected by lines that show how the book branches out. Click any node to open that topic and go deep.
+- **Persistent navigation** so you can jump straight to the mind map, the quizzes, a specific idea, the challenges, or the final takeaway. You're never stuck on a one-way slideshow.
+- A **graphics-heavy** design: charts, infographics, stat callouts, icons, and emoji anchors instead of walls of text.
+- Copy that **sounds like a person**, not an AI report.
+- The learning science underneath: retrieval practice, spaced structure, dual coding, the generation effect, and more.
+
 ---
 
 ## What's inside

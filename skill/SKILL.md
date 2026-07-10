@@ -55,18 +55,36 @@ model of the entire work.
 Read `references/ten-methods.md` for the full cognitive science rationale behind each method.
 Below is how each method translates into a concrete component of the interactive companion.
 
-### Method 1: Macrostructure Extraction → Layered Mind Map
+### Method 1: Macrostructure Extraction → Interactive Mind Map Flow Diagram
 
-Build a visual, expandable mind map with three zoom levels:
+Build a real node-and-edge flow diagram, not a stack of tabs or cards. The whole point is to
+show how the ideas connect and branch out from each other, so the reader can see the shape of
+the book at a glance and trace how one idea leads to the next.
 
-- **Level 1 (Thesis):** One sentence capturing the book's central argument.
-- **Level 2 (Causal chain):** The 3–7 major ideas that support the thesis, shown as connected
-  nodes with directional arrows indicating logical flow.
-- **Level 3 (Details & boundaries):** Each major idea expands to show supporting evidence,
-  examples, and boundary conditions (where the idea applies and where it breaks down).
+- **Center node (Thesis):** One node in the middle holding the book's central argument in a
+  sentence.
+- **Branch nodes (Major ideas):** The 3–7 big ideas radiate out from the center, each on its
+  own branch. Draw curved connector lines (edges) between nodes. Where one idea feeds into
+  another, connect them directly so the causal flow is visible, not just implied.
+- **Leaf nodes (Details & boundaries):** Each major idea can expand to show its evidence,
+  examples, and where it stops working. Collapsed by default so the map stays readable.
 
-The reader starts zoomed out and clicks to expand. They never see more complexity than they
-choose to explore.
+How it behaves:
+
+- **Every node is clickable.** Clicking a node opens that topic in a detail panel (a side
+  drawer on desktop, a full sheet on mobile) where the reader can go deep: the plain-language
+  explanation, the visual for that idea, and jump-links to its principle card, case study, and
+  retrieval challenge. The map is the reader's home base for exploring any topic.
+- **Expand and collapse branches.** Clicking a branch node reveals or hides its leaf nodes,
+  with the connector lines animating in. The reader controls how much they see.
+- **Pan and zoom.** On desktop the reader can drag to pan and scroll to zoom. On mobile the
+  map is pinch-zoomable or falls back to a clean collapsible tree.
+- **Active-node highlighting.** The node the reader is currently exploring stays highlighted,
+  and its path back to the center thesis lights up, so they never lose the thread.
+
+The reader starts zoomed out on the thesis and opens only the branches they care about. The
+map doubles as the primary way to navigate the whole companion: click a topic, dive in, come
+back to the map.
 
 ### Method 2: Compression Through Abstraction → Principle Cards
 
@@ -82,19 +100,28 @@ The card format forces compression. If you can't fit it on a card, you haven't c
 
 ### Method 3: Dual Coding → Annotated Visual Frameworks
 
-For every major concept, create a visual representation — a flowchart, 2×2 matrix, Venn diagram,
-funnel, cycle diagram, comparison table, or illustrated metaphor. The visual is the primary
-encoding channel; accompanying text is the secondary channel.
+For every major concept, create a real visual, not a paragraph with an icon glued on top. The
+picture carries the idea; the words back it up. This is where the companion earns its keep as
+something you look at, not just read. Lean into graphics here.
 
-Each visual element should be interactive — hover/tap reveals the verbal explanation of that
-component. The reader processes the spatial structure first, then drills into the text.
+Each visual should be interactive: hover or tap a part to reveal what it means. The reader
+takes in the spatial structure first, then drills into the words.
 
-Use the visual format that best matches the concept's structure:
-- Processes → flowchart or cycle diagram
+Match the visual to the shape of the idea:
+- Processes and loops → flowchart or cycle diagram
 - Trade-offs → 2×2 matrix
-- Comparisons → side-by-side or Venn diagram
+- Comparisons → side-by-side, Venn, or a before/after split
 - Hierarchies → tree diagram
 - Progressions → timeline or funnel
+- Quantities, proportions, or change over time → an actual chart (bar, line, donut, or a
+  pictograph built from repeated icons)
+- A single striking number → a big stat callout with a one-line so-what underneath
+- A part-of-a-whole or ranking → a labeled infographic, not a sentence
+
+Aim for several genuine data visuals or infographics across the companion, not one token
+diagram. If a concept involves a number, a ratio, a trend, or a breakdown, draw it. See the
+data visualization and infographic sections of the design system for exact chart specs, and
+use emoji, icons, and small illustrations freely to make each visual read at a glance.
 
 ### Method 4: Cognitive Load Management → Stepper Tutorial
 
@@ -196,30 +223,56 @@ Produce the companion as a **single React (.jsx) artifact** saved to `/mnt/user-
 
 - Use React with hooks (useState, useEffect, useRef, useCallback).
 - Use Tailwind CSS utility classes only (no custom CSS files).
-- All state is in-memory via React state — NO localStorage or sessionStorage.
+- All state is in-memory via React state. No localStorage or sessionStorage.
 - The companion must be fully self-contained in one file with a default export.
-- Use `lucide-react` for icons where appropriate.
-- Use smooth transitions and micro-animations for step changes, card flips, and reveals.
+- Use `lucide-react` for icons, generously, throughout the interface.
+- Use `recharts` for charts (bar, line, area, donut). For anything recharts can't do (mind
+  map edges, pictographs, custom infographics), hand-build it with inline SVG.
+- Use smooth transitions and micro-animations for step changes, card flips, node expansion,
+  and reveals.
 - Responsive: must work on both desktop and mobile viewports.
+- Include a persistent navigation component (see UX Architecture below) so the reader can jump
+  to any part of the companion at any time.
 
-### UX Architecture
+### Navigation — The Reader Is Never Trapped
 
-The companion follows this flow:
+The companion is not a one-way slideshow. It ships with a persistent navigation component that
+lets the reader hop to any section at any time: the mind map, the warm-up quiz, the principles,
+a specific deep dive, the predictions, the challenges, the timeline, or the final takeaway.
+
+- **Desktop:** a slim left sidebar or a fixed top nav bar listing every section, with the
+  current section highlighted and a small progress marker (a check or a filled dot) next to
+  finished ones.
+- **Mobile:** a fixed bottom tab bar for the main sections, plus a "jump to" menu for the rest.
+- **The mind map is also navigation.** Clicking a topic node takes the reader into that topic's
+  deep dive, then back to the map. Map and nav stay in sync so the reader always knows where
+  they are.
+- Keep the guided path as the gentle default (a "Continue" button that walks a first-timer
+  through in order), but never lock it. Anyone can break out and roam via the nav. The
+  first-pass "no skipping" rule from Method 4 applies only inside the stepper itself, not to the
+  companion as a whole.
+
+### Screen Flow
+
+The default guided order, all reachable directly from the nav:
 
 ```
-1. Title Screen + "Book in 3 Sentences" (Method 9 — opening bookend)
-2. Schema Activation Quiz (Method 6 — 3–5 questions)
-3. Layered Mind Map (Method 1 — zoomable overview)
+1. Title Screen + "The Whole Book in 3 Sentences" (Method 9 — opening bookend)
+2. Warm-up Quiz (Method 6 — 3-5 questions)
+3. Interactive Mind Map (Method 1 — the hub; click any node to open its deep dive)
 4. Guided Stepper (Method 4) containing:
-   ├── Principle Cards (Method 2)
-   ├── Visual Frameworks (Method 3)
-   ├── Case Study Modules (Method 5)
-   ├── Predict-Then-Reveal Prompts (Method 8)
-   └── Retrieval Challenges after each section (Method 7)
-5. Story Arc Timeline (Method 10 — if applicable)
+   - Principle Cards (Method 2)
+   - Visual Frameworks, charts & infographics (Method 3)
+   - Case Study Modules (Method 5)
+   - Predict-Then-Reveal Prompts (Method 8)
+   - Retrieval Challenges after each section (Method 7)
+5. Story Arc Timeline (Method 10 — if the material has a narrative)
 6. Final Recall Challenge (Method 7 — comprehensive)
 7. "If You Remember Nothing Else" (Method 9 — closing bookend)
 ```
+
+The persistent nav sits above all of this. A reader can land on the mind map, click into one
+idea, take its quiz, then jump straight to the takeaway if they want.
 
 ### Design Direction
 
@@ -240,6 +293,37 @@ core principles:
 
 Every hex value, every shadow spec, every component variant, every responsive breakpoint,
 every anti-pattern to avoid is in the design system file. Follow it literally.
+
+**Make it a joy to look at.** Text, cards, and quizzes alone are not enough. Every section
+should give the eye something to land on: a chart, an infographic, a diagram, an icon grid, a
+big stat, a small illustration, an emoji used as a visual anchor, or the occasional meme-style
+levity card. The design system's data visualization, infographic, and iconography sections
+tell you exactly how to build these on the periwinkle canvas without making it noisy. When a
+screen is all words, you have missed the point. Reach for a graphic first.
+
+### Write Like a Human, Not a Textbook
+
+All the copy in the companion — explanations, quiz prompts, card headlines, button labels,
+the bookends — should read like a sharp friend talking to you, not like an AI narrating a
+report. This matters as much as the visuals. Concretely:
+
+- Vary your sentence length. A short punchy line. Then a longer one that takes its time. Mixing
+  the rhythm is what makes writing sound human.
+- Have a point of view. React to the ideas instead of neutrally listing them. "This one is
+  genuinely counterintuitive" beats "This is an important concept."
+- Talk to the reader as "you." Ask real questions. Sound curious, not ceremonial.
+- Cut the AI vocabulary: delve, tapestry, testament, underscore, pivotal, crucial, vibrant,
+  landscape, realm, showcase, leverage, foster, seamless, robust. If a word sounds like a
+  press release, drop it.
+- No em dashes or en dashes in the copy. Use a period, a comma, a colon, or parentheses.
+- Skip the padding: no "it's not just X, it's Y," no forced groups of three, no "-ing" tails
+  glued on to sound deep ("...highlighting its importance"), no "in order to" when "to" works.
+- Say the thing plainly. "Most people get this backwards" lands harder than "It is worth noting
+  that a common misconception exists."
+
+Note the split: keep emojis, icons, and graphics in the visual design (they belong there), but
+keep them out of the prose itself. A big emoji on a stat card is design. An emoji in the middle
+of a sentence is clutter.
 
 ---
 
@@ -291,15 +375,20 @@ Every companion must pass these checks:
 
 - [ ] Opening bookend would give someone the core message even if they read nothing else
 - [ ] Schema activation quiz uses genuinely familiar domains, not the book's own jargon
-- [ ] Mind map has three real levels of depth, not just one level with labels
+- [ ] The mind map is a real node-and-edge flow diagram with visible connections, not tabs or
+      a card stack, and every node opens a topic deep dive when clicked
+- [ ] A persistent navigation lets the reader jump to any section from anywhere
 - [ ] Each principle card passes the "could I reconstruct the details from this?" test
 - [ ] Visual frameworks use the correct diagram type for the concept's structure
+- [ ] The companion has several real charts or infographics, not just text and cards
+- [ ] Icons, emojis-as-anchors, and small graphics carry meaning throughout the interface
 - [ ] Stepper introduces exactly one new concept per step
 - [ ] Case studies have genuinely different domains for the transfer example
 - [ ] Predict-then-reveal prompts are placed at moments of genuine surprise or insight
 - [ ] Retrieval challenges require actual recall, not recognition from visible text
-- [ ] Closing bookend is distinct from the opening — fresh language, actionable, memorable
-- [ ] The full experience takes 15–30 minutes to complete (for a full book)
+- [ ] Closing bookend is distinct from the opening: fresh language, actionable, memorable
+- [ ] The copy sounds like a person talking, with no AI-vocabulary and no em dashes
+- [ ] The full experience takes 15-30 minutes to complete (for a full book)
 - [ ] No jargon appears without an immediate plain-language definition or analogy
 - [ ] The companion works on mobile viewports
 
@@ -336,3 +425,9 @@ case study module, a retrieval challenge, and strong bookends.
   surprise, recognition, challenge, and satisfaction. Monotone delivery kills engagement.
 - **Over-building for short content.** Match companion complexity to source length. A 1,000-word
   article gets a lean companion. Don't pad.
+- **Walls of text.** If a screen is all paragraphs and cards with no chart, diagram, or graphic,
+  redesign it. The companion should look like an illustrated guide, not a document.
+- **A mind map that's secretly a list.** Tabs, accordions, or a column of cards labeled "mind
+  map" don't count. It has to be nodes connected by lines that you can click into.
+- **Robotic copy.** If the text reads like an AI wrote it (even copy sitting on a beautiful
+  screen), the spell breaks. Run the voice guidance over every line.

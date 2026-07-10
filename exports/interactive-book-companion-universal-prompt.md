@@ -86,18 +86,36 @@ model of the entire work.
 Read `references/ten-methods.md` for the full cognitive science rationale behind each method.
 Below is how each method translates into a concrete component of the interactive companion.
 
-### Method 1: Macrostructure Extraction → Layered Mind Map
+### Method 1: Macrostructure Extraction → Interactive Mind Map Flow Diagram
 
-Build a visual, expandable mind map with three zoom levels:
+Build a real node-and-edge flow diagram, not a stack of tabs or cards. The whole point is to
+show how the ideas connect and branch out from each other, so the reader can see the shape of
+the book at a glance and trace how one idea leads to the next.
 
-- **Level 1 (Thesis):** One sentence capturing the book's central argument.
-- **Level 2 (Causal chain):** The 3–7 major ideas that support the thesis, shown as connected
-  nodes with directional arrows indicating logical flow.
-- **Level 3 (Details & boundaries):** Each major idea expands to show supporting evidence,
-  examples, and boundary conditions (where the idea applies and where it breaks down).
+- **Center node (Thesis):** One node in the middle holding the book's central argument in a
+  sentence.
+- **Branch nodes (Major ideas):** The 3–7 big ideas radiate out from the center, each on its
+  own branch. Draw curved connector lines (edges) between nodes. Where one idea feeds into
+  another, connect them directly so the causal flow is visible, not just implied.
+- **Leaf nodes (Details & boundaries):** Each major idea can expand to show its evidence,
+  examples, and where it stops working. Collapsed by default so the map stays readable.
 
-The reader starts zoomed out and clicks to expand. They never see more complexity than they
-choose to explore.
+How it behaves:
+
+- **Every node is clickable.** Clicking a node opens that topic in a detail panel (a side
+  drawer on desktop, a full sheet on mobile) where the reader can go deep: the plain-language
+  explanation, the visual for that idea, and jump-links to its principle card, case study, and
+  retrieval challenge. The map is the reader's home base for exploring any topic.
+- **Expand and collapse branches.** Clicking a branch node reveals or hides its leaf nodes,
+  with the connector lines animating in. The reader controls how much they see.
+- **Pan and zoom.** On desktop the reader can drag to pan and scroll to zoom. On mobile the
+  map is pinch-zoomable or falls back to a clean collapsible tree.
+- **Active-node highlighting.** The node the reader is currently exploring stays highlighted,
+  and its path back to the center thesis lights up, so they never lose the thread.
+
+The reader starts zoomed out on the thesis and opens only the branches they care about. The
+map doubles as the primary way to navigate the whole companion: click a topic, dive in, come
+back to the map.
 
 ### Method 2: Compression Through Abstraction → Principle Cards
 
@@ -113,19 +131,28 @@ The card format forces compression. If you can't fit it on a card, you haven't c
 
 ### Method 3: Dual Coding → Annotated Visual Frameworks
 
-For every major concept, create a visual representation — a flowchart, 2×2 matrix, Venn diagram,
-funnel, cycle diagram, comparison table, or illustrated metaphor. The visual is the primary
-encoding channel; accompanying text is the secondary channel.
+For every major concept, create a real visual, not a paragraph with an icon glued on top. The
+picture carries the idea; the words back it up. This is where the companion earns its keep as
+something you look at, not just read. Lean into graphics here.
 
-Each visual element should be interactive — hover/tap reveals the verbal explanation of that
-component. The reader processes the spatial structure first, then drills into the text.
+Each visual should be interactive: hover or tap a part to reveal what it means. The reader
+takes in the spatial structure first, then drills into the words.
 
-Use the visual format that best matches the concept's structure:
-- Processes → flowchart or cycle diagram
+Match the visual to the shape of the idea:
+- Processes and loops → flowchart or cycle diagram
 - Trade-offs → 2×2 matrix
-- Comparisons → side-by-side or Venn diagram
+- Comparisons → side-by-side, Venn, or a before/after split
 - Hierarchies → tree diagram
 - Progressions → timeline or funnel
+- Quantities, proportions, or change over time → an actual chart (bar, line, donut, or a
+  pictograph built from repeated icons)
+- A single striking number → a big stat callout with a one-line so-what underneath
+- A part-of-a-whole or ranking → a labeled infographic, not a sentence
+
+Aim for several genuine data visuals or infographics across the companion, not one token
+diagram. If a concept involves a number, a ratio, a trend, or a breakdown, draw it. See the
+data visualization and infographic sections of the design system for exact chart specs, and
+use emoji, icons, and small illustrations freely to make each visual read at a glance.
 
 ### Method 4: Cognitive Load Management → Stepper Tutorial
 
@@ -227,30 +254,56 @@ Produce the companion as a **single React (.jsx) artifact** saved to `/mnt/user-
 
 - Use React with hooks (useState, useEffect, useRef, useCallback).
 - Use Tailwind CSS utility classes only (no custom CSS files).
-- All state is in-memory via React state — NO localStorage or sessionStorage.
+- All state is in-memory via React state. No localStorage or sessionStorage.
 - The companion must be fully self-contained in one file with a default export.
-- Use `lucide-react` for icons where appropriate.
-- Use smooth transitions and micro-animations for step changes, card flips, and reveals.
+- Use `lucide-react` for icons, generously, throughout the interface.
+- Use `recharts` for charts (bar, line, area, donut). For anything recharts can't do (mind
+  map edges, pictographs, custom infographics), hand-build it with inline SVG.
+- Use smooth transitions and micro-animations for step changes, card flips, node expansion,
+  and reveals.
 - Responsive: must work on both desktop and mobile viewports.
+- Include a persistent navigation component (see UX Architecture below) so the reader can jump
+  to any part of the companion at any time.
 
-### UX Architecture
+### Navigation — The Reader Is Never Trapped
 
-The companion follows this flow:
+The companion is not a one-way slideshow. It ships with a persistent navigation component that
+lets the reader hop to any section at any time: the mind map, the warm-up quiz, the principles,
+a specific deep dive, the predictions, the challenges, the timeline, or the final takeaway.
+
+- **Desktop:** a slim left sidebar or a fixed top nav bar listing every section, with the
+  current section highlighted and a small progress marker (a check or a filled dot) next to
+  finished ones.
+- **Mobile:** a fixed bottom tab bar for the main sections, plus a "jump to" menu for the rest.
+- **The mind map is also navigation.** Clicking a topic node takes the reader into that topic's
+  deep dive, then back to the map. Map and nav stay in sync so the reader always knows where
+  they are.
+- Keep the guided path as the gentle default (a "Continue" button that walks a first-timer
+  through in order), but never lock it. Anyone can break out and roam via the nav. The
+  first-pass "no skipping" rule from Method 4 applies only inside the stepper itself, not to the
+  companion as a whole.
+
+### Screen Flow
+
+The default guided order, all reachable directly from the nav:
 
 ```
-1. Title Screen + "Book in 3 Sentences" (Method 9 — opening bookend)
-2. Schema Activation Quiz (Method 6 — 3–5 questions)
-3. Layered Mind Map (Method 1 — zoomable overview)
+1. Title Screen + "The Whole Book in 3 Sentences" (Method 9 — opening bookend)
+2. Warm-up Quiz (Method 6 — 3-5 questions)
+3. Interactive Mind Map (Method 1 — the hub; click any node to open its deep dive)
 4. Guided Stepper (Method 4) containing:
-   ├── Principle Cards (Method 2)
-   ├── Visual Frameworks (Method 3)
-   ├── Case Study Modules (Method 5)
-   ├── Predict-Then-Reveal Prompts (Method 8)
-   └── Retrieval Challenges after each section (Method 7)
-5. Story Arc Timeline (Method 10 — if applicable)
+   - Principle Cards (Method 2)
+   - Visual Frameworks, charts & infographics (Method 3)
+   - Case Study Modules (Method 5)
+   - Predict-Then-Reveal Prompts (Method 8)
+   - Retrieval Challenges after each section (Method 7)
+5. Story Arc Timeline (Method 10 — if the material has a narrative)
 6. Final Recall Challenge (Method 7 — comprehensive)
 7. "If You Remember Nothing Else" (Method 9 — closing bookend)
 ```
+
+The persistent nav sits above all of this. A reader can land on the mind map, click into one
+idea, take its quiz, then jump straight to the takeaway if they want.
 
 ### Design Direction
 
@@ -271,6 +324,37 @@ core principles:
 
 Every hex value, every shadow spec, every component variant, every responsive breakpoint,
 every anti-pattern to avoid is in the design system file. Follow it literally.
+
+**Make it a joy to look at.** Text, cards, and quizzes alone are not enough. Every section
+should give the eye something to land on: a chart, an infographic, a diagram, an icon grid, a
+big stat, a small illustration, an emoji used as a visual anchor, or the occasional meme-style
+levity card. The design system's data visualization, infographic, and iconography sections
+tell you exactly how to build these on the periwinkle canvas without making it noisy. When a
+screen is all words, you have missed the point. Reach for a graphic first.
+
+### Write Like a Human, Not a Textbook
+
+All the copy in the companion — explanations, quiz prompts, card headlines, button labels,
+the bookends — should read like a sharp friend talking to you, not like an AI narrating a
+report. This matters as much as the visuals. Concretely:
+
+- Vary your sentence length. A short punchy line. Then a longer one that takes its time. Mixing
+  the rhythm is what makes writing sound human.
+- Have a point of view. React to the ideas instead of neutrally listing them. "This one is
+  genuinely counterintuitive" beats "This is an important concept."
+- Talk to the reader as "you." Ask real questions. Sound curious, not ceremonial.
+- Cut the AI vocabulary: delve, tapestry, testament, underscore, pivotal, crucial, vibrant,
+  landscape, realm, showcase, leverage, foster, seamless, robust. If a word sounds like a
+  press release, drop it.
+- No em dashes or en dashes in the copy. Use a period, a comma, a colon, or parentheses.
+- Skip the padding: no "it's not just X, it's Y," no forced groups of three, no "-ing" tails
+  glued on to sound deep ("...highlighting its importance"), no "in order to" when "to" works.
+- Say the thing plainly. "Most people get this backwards" lands harder than "It is worth noting
+  that a common misconception exists."
+
+Note the split: keep emojis, icons, and graphics in the visual design (they belong there), but
+keep them out of the prose itself. A big emoji on a stat card is design. An emoji in the middle
+of a sentence is clutter.
 
 ---
 
@@ -322,15 +406,20 @@ Every companion must pass these checks:
 
 - [ ] Opening bookend would give someone the core message even if they read nothing else
 - [ ] Schema activation quiz uses genuinely familiar domains, not the book's own jargon
-- [ ] Mind map has three real levels of depth, not just one level with labels
+- [ ] The mind map is a real node-and-edge flow diagram with visible connections, not tabs or
+      a card stack, and every node opens a topic deep dive when clicked
+- [ ] A persistent navigation lets the reader jump to any section from anywhere
 - [ ] Each principle card passes the "could I reconstruct the details from this?" test
 - [ ] Visual frameworks use the correct diagram type for the concept's structure
+- [ ] The companion has several real charts or infographics, not just text and cards
+- [ ] Icons, emojis-as-anchors, and small graphics carry meaning throughout the interface
 - [ ] Stepper introduces exactly one new concept per step
 - [ ] Case studies have genuinely different domains for the transfer example
 - [ ] Predict-then-reveal prompts are placed at moments of genuine surprise or insight
 - [ ] Retrieval challenges require actual recall, not recognition from visible text
-- [ ] Closing bookend is distinct from the opening — fresh language, actionable, memorable
-- [ ] The full experience takes 15–30 minutes to complete (for a full book)
+- [ ] Closing bookend is distinct from the opening: fresh language, actionable, memorable
+- [ ] The copy sounds like a person talking, with no AI-vocabulary and no em dashes
+- [ ] The full experience takes 15-30 minutes to complete (for a full book)
 - [ ] No jargon appears without an immediate plain-language definition or analogy
 - [ ] The companion works on mobile viewports
 
@@ -367,6 +456,12 @@ case study module, a retrieval challenge, and strong bookends.
   surprise, recognition, challenge, and satisfaction. Monotone delivery kills engagement.
 - **Over-building for short content.** Match companion complexity to source length. A 1,000-word
   article gets a lean companion. Don't pad.
+- **Walls of text.** If a screen is all paragraphs and cards with no chart, diagram, or graphic,
+  redesign it. The companion should look like an illustrated guide, not a document.
+- **A mind map that's secretly a list.** Tabs, accordions, or a column of cards labeled "mind
+  map" don't count. It has to be nodes connected by lines that you can click into.
+- **Robotic copy.** If the text reads like an AI wrote it (even copy sitting on a beautiful
+  screen), the spell breaks. Run the voice guidance over every line.
 
 ---
 
@@ -735,8 +830,11 @@ Every text element in the interface maps to exactly one of these roles. No ad-ho
   becomes fatiguing. Use `max-w-2xl` (672px) for text-heavy screens.
 - **Paragraph spacing**: `mb-4` (16px) between paragraphs. `mb-8` (32px) before a new heading.
 - **No underlines** except on actual links. Even links may use color+font-weight instead of underline.
-- **Emoji** can be used sparingly in overline labels and section openers (e.g., "🧠 Schema Quiz",
-  "🔮 Make a Prediction"). Maximum one emoji per heading. Never in body text.
+- **Emoji** are used as visual anchors, not sentence decoration. They're welcome in overline
+  labels, section openers, on stat cards, quiz prompts, mind map nodes, and as the large graphic
+  on a levity card (e.g. "🧠 Warm-up", "🔮 Make a prediction", a big "🤯" on a surprising stat).
+  One per heading; a single large one as a card's hero graphic is fine. Keep them out of running
+  body prose, where they read as clutter.
 
 ---
 
@@ -1007,28 +1105,65 @@ Inline: border-b-2 border-dashed border-[accent-indigo] px-1 min-w-[80px]
 Text: font-medium text-[accent-indigo-deep] when filled
 ```
 
-### 7.6 Mind Map Nodes
+### 7.6 Mind Map Flow Diagram
 
-**Level 1 (Thesis) — center node**
+The mind map is a real node-and-edge flow diagram: nodes positioned in space, connected by
+curved SVG edges, that the reader can expand, pan, zoom, and click into. It is not tabs, not an
+accordion, not a column of cards. It is the visual hub of the whole companion.
+
+**Center node (Thesis)**
 ```
 Container: bg-[surface-dark] rounded-2xl px-6 py-4 shadow-lg
 Text: heading-2, text-on-dark, text-center, max-w-xs
-Ring: 3px solid [accent-violet] (outer glow effect)
+Ring: 3px solid [accent-violet], plus a soft radial violet glow behind it
+Icon: small Sparkles or Target icon above the text
 ```
 
-**Level 2 (Causal chain) — primary nodes**
+**Branch node (Major idea)**
 ```
-Container: bg-white rounded-xl px-5 py-3 shadow-md border-2 border-[accent-violet]/20
-Text: heading-3, text-primary
-Connector line: 2px stroke, [accent-violet]/40, with subtle curve (SVG path)
-Click affordance: Small expand icon (ChevronDown) in top-right, text-tertiary
+Container: bg-white rounded-xl px-5 py-3 shadow-md border-2 border-[accent-violet]/25
+  cursor-pointer, hover: shadow-lg -translate-y-0.5 border-[accent-violet]/50
+Text: heading-3, text-primary, with a 20px leading icon in an accent-soft circle
+Count badge: small pill showing how many sub-ideas are inside (e.g., "3")
+Expand affordance: ChevronDown that rotates 180deg when open
+Active state (currently open in the panel): ring-2 ring-[accent-violet], bg-[accent-violet-soft]
 ```
 
-**Level 3 (Details) — leaf nodes**
+**Leaf node (Detail / boundary)**
 ```
-Container: bg-[accent-violet-soft] rounded-lg px-4 py-2.5 shadow-sm
+Container: bg-[accent-violet-soft] rounded-lg px-4 py-2.5 shadow-sm cursor-pointer
+  hover: bg-[accent-violet-soft] brightness-95
 Text: body-small, text-primary
-Connector line: 1.5px stroke, [accent-violet]/25, straight or gentle curve
+```
+
+**Edges (connector lines)**
+```
+Render: single SVG overlay sitting under the nodes (absolute, full-size, pointer-events-none)
+Path: cubic-bezier curves from parent center to child center
+Stroke: 2px for center→branch, 1.5px for branch→leaf, [accent-violet] at 30-45% opacity
+Active path: when a node is open, its full chain back to the center is stroked at full
+  [accent-violet] and slightly thicker, so the reader can trace where they are
+No arrowheads: the layout radiating from the center implies direction
+```
+
+**Canvas behavior**
+```
+Container: relative, min-h-[520px] on desktop, rounded-2xl bg-white/60 backdrop-blur-sm
+Pan: drag to move the canvas (pointer + touch)
+Zoom: scroll / pinch, clamped 0.6x–1.6x, with small +/- and "reset view" icon buttons
+Mobile fallback: if the viewport is too small to lay nodes out cleanly, collapse to an
+  indented, expandable tree that keeps the same click-into-topic behavior
+```
+
+**Node detail panel (opens on node click)**
+```
+Desktop: a side drawer, w-[420px], slides in from the right, bg-white rounded-l-2xl shadow-xl
+Mobile: a bottom sheet, rounded-t-2xl, covering ~85% height, drag-down or X to close
+Header: overline chip with the idea's method color + the node title (heading-2) + close icon
+Body: the plain-language explanation (body), the visual/chart for that idea, and a row of
+  jump-links ("See the principle card", "Try the challenge", "Read the case study") styled as
+  secondary pills that navigate the reader to that section
+Backdrop: on mobile, a dimmed scrim behind the sheet; tap to dismiss
 ```
 
 ### 7.7 Flashcard
@@ -1050,11 +1185,35 @@ Bottom: "Got it" (success pill) / "Need review" (warning pill) self-assessment
 Transition: 3D Y-axis flip (rotateY 180deg) over 400ms, or a simple crossfade
 ```
 
-### 7.8 Navigation / Bottom Bar (if applicable)
+### 7.8 Persistent Navigation (required)
 
-**Tab bar (mobile, fixed bottom)**
+The companion always ships with a persistent navigation so the reader can jump to any section
+from anywhere: mind map, warm-up, principles, a specific deep dive, predictions, challenges,
+timeline, takeaway. Every section gets an icon and a short label. Finished sections show a
+completion marker.
+
+**Desktop — left rail (preferred) or fixed top bar**
 ```
-Container: bg-white border-t border-gray-100 px-4 py-2 flex justify-around
+Left rail: w-60 fixed left-0 top-0 h-screen bg-white/80 backdrop-blur-md border-r border-gray-100
+  px-3 py-6 flex flex-col gap-1
+Brand: small book title + a thin overall progress bar at the top
+Nav item: w-full flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer
+  Icon: 20px in an accent-soft circle (each section keeps its method's accent)
+  Label: cta-label, text-secondary
+  Default: transparent bg
+  Hover: bg-[surface-sunken]
+  Active (current section): bg-[accent-indigo-soft], text-[accent-indigo-deep], font-semibold,
+    plus a 3px accent bar on the left edge
+  Completed: small emerald check to the right of the label
+Main content shifts right by the rail width (lg:ml-60).
+Collapse: a hamburger collapses the rail to a 64px icon-only strip on smaller desktops.
+```
+
+**Mobile — fixed bottom tab bar + "more" menu**
+```
+Container: fixed bottom-0 inset-x-0 bg-white border-t border-gray-100 px-2 py-2
+  flex justify-around, with pb-safe for iOS
+Show the 4-5 primary sections as tabs; a "More" tab opens a sheet listing the rest.
 Tab item: flex flex-col items-center gap-1
   Icon: 24px
   Label: text-xs font-medium
@@ -1062,6 +1221,12 @@ Tab item: flex flex-col items-center gap-1
   Active: text-[accent-indigo], icon filled instead of outlined
 Active indicator: 4px dot below the icon, bg-[accent-indigo], rounded-full
 ```
+
+**Behavior**
+- Clicking any nav item routes to that section (in-memory view state, no page reload).
+- The nav, the mind map's active node, and the stepper progress stay in sync.
+- The guided "Continue" button still advances a first-timer in order, but the nav is always
+  live so no one is forced through linearly.
 
 ---
 
@@ -1177,7 +1342,13 @@ Icon: w-6 h-6 text-white
 
 ---
 
-## 10. Data Visualization
+## 10. Data Visualization and Infographics
+
+Charts and infographics are not optional decoration here. They are how the companion teaches.
+Plan for several real visuals across a full-book companion, not one token chart. If an idea
+involves a number, a proportion, a trend, a ranking, a flow, or a comparison, draw it. Build
+charts with `recharts` in React; hand-build custom infographics and the mind map with inline
+SVG and positioned divs.
 
 ### 10.1 Chart Colors
 
@@ -1188,7 +1359,10 @@ Charts use the accent palette in this priority order:
 4. `accent-emerald` (#10B981) — quaternary
 5. `accent-violet` (#8B5CF6) — fifth series (rarely needed)
 
-### 10.2 Chart Styles (from references)
+Keep one chart to one or two accents unless it is genuinely a multi-series comparison. Label
+directly on the marks where you can, so the reader doesn't hunt through a legend.
+
+### 10.2 Chart Styles
 
 **Bar charts:**
 - Bars: rounded-top (`rx: 6`), solid fill with primary accent
@@ -1202,26 +1376,68 @@ Charts use the accent palette in this priority order:
 - Center: Large stat number + small caption label
 - Legend: Below or right, using dot + label format
 
-**Line charts (heart rate style):**
+**Line and area charts:**
 - Line: 2px stroke, accent color, rounded joins
 - Dots: Hidden by default, shown on hover (6px circle)
 - Area fill: Gradient from accent/10 at top to transparent at bottom
-- Contrast elements: Red vertical bars for anomaly markers
+- Contrast elements: colored vertical markers for key moments or anomalies
 
-### 10.3 Mind Map Visualization
+**Tooltips:** rounded-xl white card, shadow-md, caption label + bold value. Never the default
+recharts tooltip.
 
-The mind map is the most complex visual element. Build it as positioned HTML divs with
-CSS/SVG connector lines, NOT as a pure SVG diagram.
+### 10.3 Infographic Patterns
+
+Beyond standard charts, reach for these to turn ideas into pictures. All sit in a standard
+card on the periwinkle canvas.
+
+- **Big stat callout.** One huge `stat-number` (or larger), a short label, and a one-line
+  "so what" underneath. Optional accent-soft circle with an icon. Use for the single most
+  striking number in a section.
+- **Stat row / KPI strip.** 2-4 stat callouts in a row (stacked on mobile), each in its own
+  nested card, for a cluster of related figures.
+- **Pictograph.** A quantity shown as repeated icons or emoji (e.g. 7 of 10 little figures
+  filled) instead of a bar. Great for proportions and "X out of Y" facts.
+- **Comparison / versus card.** Two columns split down the middle (a subtle divider or two
+  accent-soft panels) contrasting before/after, myth/reality, or option A/B, each with an icon
+  header and a short list.
+- **Icon-bullet grid.** A 2x2 or 3-up grid of small cards, each a 40px accent-soft icon circle
+  plus a few words. Replaces a plain bulleted list wherever the items are parallel.
+- **Progress ring cluster.** Circular progress rings (see 7.4) used to show mastery, coverage,
+  or any 0-100% figure, with the number in the center.
+- **Labeled diagram / metaphor.** An inline-SVG illustration of a metaphor from the book with
+  hotspots that reveal text on hover or tap.
+- **Timeline strip.** A horizontal line with milestone dots (see the story arc timeline), each
+  dot an icon in an accent circle with a short caption.
+
+### 10.4 Emoji, Icons, and Illustration as Visual Anchors
+
+- Give most cards a leading icon (Lucide) in an accent-soft circle. Sections keep their method
+  accent so the color-coding holds.
+- Emoji are welcome as large visual anchors: a single sizable emoji at the top of a stat card,
+  a warm-up question, or a section header reads instantly. Keep them out of running prose.
+- Build small illustrations from inline SVG or emoji rather than external images (artifacts
+  can't reliably load remote files). No stock photos, no remote image URLs.
+- Levity is allowed. An occasional "meme-style" card (one big emoji or simple SVG reaction plus
+  a punchy caption) is a fine way to mark a surprising or funny point. Use it a couple of times
+  at most, never for serious or sensitive material.
+
+### 10.5 Mind Map Visualization
+
+The mind map is the most complex visual element. Build it as positioned divs with an SVG
+connector overlay, per the full spec in Component Library section 7.6 (nodes, edges, canvas
+pan/zoom, and the click-into-topic detail panel).
 
 ```
-Layout: Relative container, nodes positioned with CSS
-Connectors: SVG overlay with path elements using cubic bezier curves
-  Stroke: 2px, accent-violet/30
-  No arrowheads (the hierarchy implies direction)
-Animation: Nodes fade in sequentially (stagger 100ms) when expanded
-Interaction: Click node to expand/collapse children
-  Expanded: Children slide in from parent position, opacity 0→1, 300ms
-  Collapsed: Children slide back and fade out, 200ms
+Layout: Relative container, nodes positioned with CSS/absolute coordinates
+Connectors: SVG overlay with cubic-bezier path elements
+  Stroke: 2px center→branch, 1.5px branch→leaf, accent-violet at 30-45%
+  Active chain (open node back to center): full accent-violet, slightly thicker
+  No arrowheads (radial layout implies direction)
+Animation: child nodes fade + slide from the parent's position (stagger 100ms) on expand
+Interaction:
+  Click a branch node → expand/collapse its leaves
+  Click any node → open the node detail panel (drawer/sheet) for that topic
+  Drag to pan, scroll/pinch to zoom (clamp 0.6x–1.6x), reset-view button
 ```
 
 ---
@@ -1377,16 +1593,24 @@ The references feature subtle decorative elements on feature screens:
 - **Gradient accents:** Subtle linear gradients in card backgrounds for special sections.
   Never a full rainbow — use two adjacent accent colors. Example: `linear-gradient(135deg, [accent-indigo-soft], [accent-violet-soft])`.
 
-### 15.2 What NOT to Include
+### 15.2 Illustration You Should Include
 
-- No 3D character illustrations (those in the references are product-specific assets).
-- No photographs or stock imagery.
-- No complex SVG illustrations.
-- No animated background effects that distract from learning content.
-- No gradients that reduce text legibility.
+Lean into graphics. The companion should feel illustrated, not just laid out.
 
-The companion's visual richness comes from the color-coded interaction system, the generous
-spacing, and the card-based architecture — not from decorative illustration.
+- Inline-SVG illustrations, diagrams, metaphors, and infographics: yes, build these liberally.
+- Icons (Lucide) on most cards, and emoji as large visual anchors: yes.
+- Simple hand-built SVG "reaction" graphics for the occasional levity/meme card: yes, sparingly.
+- Charts and data viz (recharts + SVG): yes, several per companion.
+
+### 15.3 What NOT to Include
+
+- No photographs, stock imagery, or remote image URLs (artifacts can't reliably load them).
+  Everything visual is inline SVG, emoji, icons, or CSS.
+- No 3D character illustrations or heavy imported artwork.
+- No animated background effects that distract from the learning content.
+- No gradients or graphics that reduce text legibility.
+- No decoration that carries no meaning. Every graphic should teach, label, or orient. Busy is
+  not the goal; engaging and clear is.
 
 ---
 
@@ -1418,7 +1642,10 @@ These are the things that will make the companion look generic or broken. Avoid 
 1. **Pure white (#FFFFFF) full-page background.** Always use the periwinkle canvas.
 2. **Sharp corners on cards.** Never below `rounded-xl` (12px) for any container.
 3. **Hard black shadows.** Shadows are always cool-tinted and diffuse.
-4. **Competing accent colors on one screen.** One accent dominates per screen/section.
+4. **Competing accent colors in the chrome.** One accent still leads per section for the UI
+   itself (nav highlight, buttons, card accents). Charts, infographics, and the mind map may use
+   several accents at once when the data genuinely calls for it, as long as they read as one
+   coherent visual and not a random rainbow.
 5. **Dense paragraph blocks without spacing.** Max 3 sentences per visual paragraph.
 6. **Borders instead of shadows for card elevation.** Cards float with shadow, not outline.
 7. **Default browser form elements.** Every input, radio, and checkbox is custom-styled.
@@ -1426,11 +1653,11 @@ These are the things that will make the companion look generic or broken. Avoid 
 9. **Generic gray buttons.** CTAs are always the dark pill or a colored accent button.
 10. **Centered body text.** Body text is always left-aligned. Only headings and bookend
     display text may be centered.
-11. **More than 4 colors visible simultaneously.** The canvas + one or two accents + text
-    colors. That's it. If you see a rainbow, you've gone wrong.
+11. **A rainbow UI.** The interface chrome stays calm: canvas, one or two accents, text colors.
+    Data visuals and the mind map are the exception and may carry more color, but they should
+    still feel deliberate. If a plain content screen looks like a paint sample, you've gone wrong.
 12. **Stacking multiple cards with the same visual weight.** Vary card sizes, colors, and
     content types to create rhythm.
-
 
 ---
 
@@ -1627,7 +1854,16 @@ format — it runs in any browser on any device with zero dependencies.
 - CSS custom properties (variables) for all design tokens from the design system.
 - Responsive: works on both desktop and mobile viewports.
 - All state is managed in JavaScript variables (no localStorage or sessionStorage).
-- Must work when opened as a local file (file:// protocol) — no fetch() calls required.
+- Must work when opened as a local file (file:// protocol), no fetch() calls required.
+- Icons: use inline SVG icons throughout (draw the small set you need in the file). Emoji are
+  also fine as visual anchors on cards and headers.
+- Charts and infographics: build them by hand with inline SVG (bars, lines, donuts,
+  pictographs) since there is no chart library. Include several real visuals, not just text.
+- The mind map is a node-and-edge flow diagram: absolutely-positioned nodes with an SVG overlay
+  for the curved connector lines. Clicking a node opens that topic in a detail panel. It must be
+  a clickable diagram, not tabs or a list.
+- Ship a persistent navigation (a top bar or side rail on desktop, a fixed bottom bar on mobile)
+  so the reader can jump to any section at any time. Toggle section visibility with JS.
 
 ## Implementation Pattern
 
@@ -1666,22 +1902,31 @@ format — it runs in any browser on any device with zero dependencies.
 </html>
 ```
 
+## Navigation
+
+The companion is not a one-way slideshow. A persistent navigation (top bar or side rail on
+desktop, fixed bottom bar on mobile) lets the reader jump to any section at any time: the mind
+map, the warm-up, the principles, a specific deep dive, the predictions, the challenges, the
+timeline, or the takeaway. The current section is highlighted and finished ones get a check.
+The mind map is also navigation: clicking a topic node opens that topic's deep dive. Keep a
+gentle guided "Continue" path as the default, but never lock the reader into it.
+
 ## UX Architecture Flow
 
-The companion follows this exact sequence:
+The default guided order, all reachable directly from the nav:
 
-1. Title Screen + "Book in 3 Sentences" (Method 9 — opening bookend)
-2. Schema Activation Quiz (Method 6 — 3-5 questions)
-3. Layered Mind Map (Method 1 — expandable overview)
+1. Title Screen + "The Whole Book in 3 Sentences" (Method 9, opening bookend)
+2. Warm-up Quiz (Method 6, 3-5 questions)
+3. Interactive Mind Map (Method 1, the hub; click any node to open its deep dive)
 4. Guided Stepper (Method 4) containing:
    - Principle Cards (Method 2)
-   - Visual Frameworks (Method 3)
+   - Visual Frameworks, charts and infographics (Method 3)
    - Case Study Modules (Method 5)
    - Predict-Then-Reveal Prompts (Method 8)
    - Retrieval Challenges after each section (Method 7)
-5. Story Arc Timeline (Method 10 — if the book has a narrative)
-6. Final Recall Challenge (Method 7 — comprehensive)
-7. "If You Remember Nothing Else" (Method 9 — closing bookend)
+5. Story Arc Timeline (Method 10, if the book has a narrative)
+6. Final Recall Challenge (Method 7, comprehensive)
+7. "If You Remember Nothing Else" (Method 9, closing bookend)
 
 ---
 
@@ -1721,13 +1966,18 @@ and approximately how long it takes to complete (15-30 minutes for a full book).
 Every companion must pass these checks:
 - [ ] Opening bookend gives the core message even if the reader stops there
 - [ ] Schema activation quiz uses familiar domains, not book jargon
-- [ ] Mind map has three real levels of depth
+- [ ] The mind map is a real node-and-edge flow diagram with visible connections, not tabs or a
+      card stack, and every node opens a topic deep dive when clicked
+- [ ] A persistent navigation lets the reader jump to any section from anywhere
 - [ ] Each principle card passes the "could I reconstruct details from this?" test
 - [ ] Visual frameworks use the correct diagram type for the concept's structure
+- [ ] The companion has several real charts or infographics, not just text and cards
+- [ ] Icons, emoji-as-anchors, and small graphics carry meaning throughout the interface
 - [ ] Stepper introduces exactly one new concept per step
 - [ ] Case studies use genuinely different domains for transfer examples
 - [ ] Predict-then-reveal prompts are placed at moments of surprise or insight
 - [ ] Retrieval challenges require actual recall, not recognition from visible text
-- [ ] Closing bookend is distinct from opening — fresh language, actionable, memorable
+- [ ] Closing bookend is distinct from opening: fresh language, actionable, memorable
+- [ ] The copy sounds like a person talking, with no AI-vocabulary and no em dashes
 - [ ] No jargon without an immediate plain-language definition or analogy
 - [ ] The companion works on mobile viewports

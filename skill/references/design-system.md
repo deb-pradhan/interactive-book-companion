@@ -147,8 +147,11 @@ Every text element in the interface maps to exactly one of these roles. No ad-ho
   becomes fatiguing. Use `max-w-2xl` (672px) for text-heavy screens.
 - **Paragraph spacing**: `mb-4` (16px) between paragraphs. `mb-8` (32px) before a new heading.
 - **No underlines** except on actual links. Even links may use color+font-weight instead of underline.
-- **Emoji** can be used sparingly in overline labels and section openers (e.g., "🧠 Schema Quiz",
-  "🔮 Make a Prediction"). Maximum one emoji per heading. Never in body text.
+- **Emoji** are used as visual anchors, not sentence decoration. They're welcome in overline
+  labels, section openers, on stat cards, quiz prompts, mind map nodes, and as the large graphic
+  on a levity card (e.g. "🧠 Warm-up", "🔮 Make a prediction", a big "🤯" on a surprising stat).
+  One per heading; a single large one as a card's hero graphic is fine. Keep them out of running
+  body prose, where they read as clutter.
 
 ---
 
@@ -419,28 +422,65 @@ Inline: border-b-2 border-dashed border-[accent-indigo] px-1 min-w-[80px]
 Text: font-medium text-[accent-indigo-deep] when filled
 ```
 
-### 7.6 Mind Map Nodes
+### 7.6 Mind Map Flow Diagram
 
-**Level 1 (Thesis) — center node**
+The mind map is a real node-and-edge flow diagram: nodes positioned in space, connected by
+curved SVG edges, that the reader can expand, pan, zoom, and click into. It is not tabs, not an
+accordion, not a column of cards. It is the visual hub of the whole companion.
+
+**Center node (Thesis)**
 ```
 Container: bg-[surface-dark] rounded-2xl px-6 py-4 shadow-lg
 Text: heading-2, text-on-dark, text-center, max-w-xs
-Ring: 3px solid [accent-violet] (outer glow effect)
+Ring: 3px solid [accent-violet], plus a soft radial violet glow behind it
+Icon: small Sparkles or Target icon above the text
 ```
 
-**Level 2 (Causal chain) — primary nodes**
+**Branch node (Major idea)**
 ```
-Container: bg-white rounded-xl px-5 py-3 shadow-md border-2 border-[accent-violet]/20
-Text: heading-3, text-primary
-Connector line: 2px stroke, [accent-violet]/40, with subtle curve (SVG path)
-Click affordance: Small expand icon (ChevronDown) in top-right, text-tertiary
+Container: bg-white rounded-xl px-5 py-3 shadow-md border-2 border-[accent-violet]/25
+  cursor-pointer, hover: shadow-lg -translate-y-0.5 border-[accent-violet]/50
+Text: heading-3, text-primary, with a 20px leading icon in an accent-soft circle
+Count badge: small pill showing how many sub-ideas are inside (e.g., "3")
+Expand affordance: ChevronDown that rotates 180deg when open
+Active state (currently open in the panel): ring-2 ring-[accent-violet], bg-[accent-violet-soft]
 ```
 
-**Level 3 (Details) — leaf nodes**
+**Leaf node (Detail / boundary)**
 ```
-Container: bg-[accent-violet-soft] rounded-lg px-4 py-2.5 shadow-sm
+Container: bg-[accent-violet-soft] rounded-lg px-4 py-2.5 shadow-sm cursor-pointer
+  hover: bg-[accent-violet-soft] brightness-95
 Text: body-small, text-primary
-Connector line: 1.5px stroke, [accent-violet]/25, straight or gentle curve
+```
+
+**Edges (connector lines)**
+```
+Render: single SVG overlay sitting under the nodes (absolute, full-size, pointer-events-none)
+Path: cubic-bezier curves from parent center to child center
+Stroke: 2px for center→branch, 1.5px for branch→leaf, [accent-violet] at 30-45% opacity
+Active path: when a node is open, its full chain back to the center is stroked at full
+  [accent-violet] and slightly thicker, so the reader can trace where they are
+No arrowheads: the layout radiating from the center implies direction
+```
+
+**Canvas behavior**
+```
+Container: relative, min-h-[520px] on desktop, rounded-2xl bg-white/60 backdrop-blur-sm
+Pan: drag to move the canvas (pointer + touch)
+Zoom: scroll / pinch, clamped 0.6x–1.6x, with small +/- and "reset view" icon buttons
+Mobile fallback: if the viewport is too small to lay nodes out cleanly, collapse to an
+  indented, expandable tree that keeps the same click-into-topic behavior
+```
+
+**Node detail panel (opens on node click)**
+```
+Desktop: a side drawer, w-[420px], slides in from the right, bg-white rounded-l-2xl shadow-xl
+Mobile: a bottom sheet, rounded-t-2xl, covering ~85% height, drag-down or X to close
+Header: overline chip with the idea's method color + the node title (heading-2) + close icon
+Body: the plain-language explanation (body), the visual/chart for that idea, and a row of
+  jump-links ("See the principle card", "Try the challenge", "Read the case study") styled as
+  secondary pills that navigate the reader to that section
+Backdrop: on mobile, a dimmed scrim behind the sheet; tap to dismiss
 ```
 
 ### 7.7 Flashcard
@@ -462,11 +502,35 @@ Bottom: "Got it" (success pill) / "Need review" (warning pill) self-assessment
 Transition: 3D Y-axis flip (rotateY 180deg) over 400ms, or a simple crossfade
 ```
 
-### 7.8 Navigation / Bottom Bar (if applicable)
+### 7.8 Persistent Navigation (required)
 
-**Tab bar (mobile, fixed bottom)**
+The companion always ships with a persistent navigation so the reader can jump to any section
+from anywhere: mind map, warm-up, principles, a specific deep dive, predictions, challenges,
+timeline, takeaway. Every section gets an icon and a short label. Finished sections show a
+completion marker.
+
+**Desktop — left rail (preferred) or fixed top bar**
 ```
-Container: bg-white border-t border-gray-100 px-4 py-2 flex justify-around
+Left rail: w-60 fixed left-0 top-0 h-screen bg-white/80 backdrop-blur-md border-r border-gray-100
+  px-3 py-6 flex flex-col gap-1
+Brand: small book title + a thin overall progress bar at the top
+Nav item: w-full flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer
+  Icon: 20px in an accent-soft circle (each section keeps its method's accent)
+  Label: cta-label, text-secondary
+  Default: transparent bg
+  Hover: bg-[surface-sunken]
+  Active (current section): bg-[accent-indigo-soft], text-[accent-indigo-deep], font-semibold,
+    plus a 3px accent bar on the left edge
+  Completed: small emerald check to the right of the label
+Main content shifts right by the rail width (lg:ml-60).
+Collapse: a hamburger collapses the rail to a 64px icon-only strip on smaller desktops.
+```
+
+**Mobile — fixed bottom tab bar + "more" menu**
+```
+Container: fixed bottom-0 inset-x-0 bg-white border-t border-gray-100 px-2 py-2
+  flex justify-around, with pb-safe for iOS
+Show the 4-5 primary sections as tabs; a "More" tab opens a sheet listing the rest.
 Tab item: flex flex-col items-center gap-1
   Icon: 24px
   Label: text-xs font-medium
@@ -474,6 +538,12 @@ Tab item: flex flex-col items-center gap-1
   Active: text-[accent-indigo], icon filled instead of outlined
 Active indicator: 4px dot below the icon, bg-[accent-indigo], rounded-full
 ```
+
+**Behavior**
+- Clicking any nav item routes to that section (in-memory view state, no page reload).
+- The nav, the mind map's active node, and the stepper progress stay in sync.
+- The guided "Continue" button still advances a first-timer in order, but the nav is always
+  live so no one is forced through linearly.
 
 ---
 
@@ -589,7 +659,13 @@ Icon: w-6 h-6 text-white
 
 ---
 
-## 10. Data Visualization
+## 10. Data Visualization and Infographics
+
+Charts and infographics are not optional decoration here. They are how the companion teaches.
+Plan for several real visuals across a full-book companion, not one token chart. If an idea
+involves a number, a proportion, a trend, a ranking, a flow, or a comparison, draw it. Build
+charts with `recharts` in React; hand-build custom infographics and the mind map with inline
+SVG and positioned divs.
 
 ### 10.1 Chart Colors
 
@@ -600,7 +676,10 @@ Charts use the accent palette in this priority order:
 4. `accent-emerald` (#10B981) — quaternary
 5. `accent-violet` (#8B5CF6) — fifth series (rarely needed)
 
-### 10.2 Chart Styles (from references)
+Keep one chart to one or two accents unless it is genuinely a multi-series comparison. Label
+directly on the marks where you can, so the reader doesn't hunt through a legend.
+
+### 10.2 Chart Styles
 
 **Bar charts:**
 - Bars: rounded-top (`rx: 6`), solid fill with primary accent
@@ -614,26 +693,68 @@ Charts use the accent palette in this priority order:
 - Center: Large stat number + small caption label
 - Legend: Below or right, using dot + label format
 
-**Line charts (heart rate style):**
+**Line and area charts:**
 - Line: 2px stroke, accent color, rounded joins
 - Dots: Hidden by default, shown on hover (6px circle)
 - Area fill: Gradient from accent/10 at top to transparent at bottom
-- Contrast elements: Red vertical bars for anomaly markers
+- Contrast elements: colored vertical markers for key moments or anomalies
 
-### 10.3 Mind Map Visualization
+**Tooltips:** rounded-xl white card, shadow-md, caption label + bold value. Never the default
+recharts tooltip.
 
-The mind map is the most complex visual element. Build it as positioned HTML divs with
-CSS/SVG connector lines, NOT as a pure SVG diagram.
+### 10.3 Infographic Patterns
+
+Beyond standard charts, reach for these to turn ideas into pictures. All sit in a standard
+card on the periwinkle canvas.
+
+- **Big stat callout.** One huge `stat-number` (or larger), a short label, and a one-line
+  "so what" underneath. Optional accent-soft circle with an icon. Use for the single most
+  striking number in a section.
+- **Stat row / KPI strip.** 2-4 stat callouts in a row (stacked on mobile), each in its own
+  nested card, for a cluster of related figures.
+- **Pictograph.** A quantity shown as repeated icons or emoji (e.g. 7 of 10 little figures
+  filled) instead of a bar. Great for proportions and "X out of Y" facts.
+- **Comparison / versus card.** Two columns split down the middle (a subtle divider or two
+  accent-soft panels) contrasting before/after, myth/reality, or option A/B, each with an icon
+  header and a short list.
+- **Icon-bullet grid.** A 2x2 or 3-up grid of small cards, each a 40px accent-soft icon circle
+  plus a few words. Replaces a plain bulleted list wherever the items are parallel.
+- **Progress ring cluster.** Circular progress rings (see 7.4) used to show mastery, coverage,
+  or any 0-100% figure, with the number in the center.
+- **Labeled diagram / metaphor.** An inline-SVG illustration of a metaphor from the book with
+  hotspots that reveal text on hover or tap.
+- **Timeline strip.** A horizontal line with milestone dots (see the story arc timeline), each
+  dot an icon in an accent circle with a short caption.
+
+### 10.4 Emoji, Icons, and Illustration as Visual Anchors
+
+- Give most cards a leading icon (Lucide) in an accent-soft circle. Sections keep their method
+  accent so the color-coding holds.
+- Emoji are welcome as large visual anchors: a single sizable emoji at the top of a stat card,
+  a warm-up question, or a section header reads instantly. Keep them out of running prose.
+- Build small illustrations from inline SVG or emoji rather than external images (artifacts
+  can't reliably load remote files). No stock photos, no remote image URLs.
+- Levity is allowed. An occasional "meme-style" card (one big emoji or simple SVG reaction plus
+  a punchy caption) is a fine way to mark a surprising or funny point. Use it a couple of times
+  at most, never for serious or sensitive material.
+
+### 10.5 Mind Map Visualization
+
+The mind map is the most complex visual element. Build it as positioned divs with an SVG
+connector overlay, per the full spec in Component Library section 7.6 (nodes, edges, canvas
+pan/zoom, and the click-into-topic detail panel).
 
 ```
-Layout: Relative container, nodes positioned with CSS
-Connectors: SVG overlay with path elements using cubic bezier curves
-  Stroke: 2px, accent-violet/30
-  No arrowheads (the hierarchy implies direction)
-Animation: Nodes fade in sequentially (stagger 100ms) when expanded
-Interaction: Click node to expand/collapse children
-  Expanded: Children slide in from parent position, opacity 0→1, 300ms
-  Collapsed: Children slide back and fade out, 200ms
+Layout: Relative container, nodes positioned with CSS/absolute coordinates
+Connectors: SVG overlay with cubic-bezier path elements
+  Stroke: 2px center→branch, 1.5px branch→leaf, accent-violet at 30-45%
+  Active chain (open node back to center): full accent-violet, slightly thicker
+  No arrowheads (radial layout implies direction)
+Animation: child nodes fade + slide from the parent's position (stagger 100ms) on expand
+Interaction:
+  Click a branch node → expand/collapse its leaves
+  Click any node → open the node detail panel (drawer/sheet) for that topic
+  Drag to pan, scroll/pinch to zoom (clamp 0.6x–1.6x), reset-view button
 ```
 
 ---
@@ -789,16 +910,24 @@ The references feature subtle decorative elements on feature screens:
 - **Gradient accents:** Subtle linear gradients in card backgrounds for special sections.
   Never a full rainbow — use two adjacent accent colors. Example: `linear-gradient(135deg, [accent-indigo-soft], [accent-violet-soft])`.
 
-### 15.2 What NOT to Include
+### 15.2 Illustration You Should Include
 
-- No 3D character illustrations (those in the references are product-specific assets).
-- No photographs or stock imagery.
-- No complex SVG illustrations.
-- No animated background effects that distract from learning content.
-- No gradients that reduce text legibility.
+Lean into graphics. The companion should feel illustrated, not just laid out.
 
-The companion's visual richness comes from the color-coded interaction system, the generous
-spacing, and the card-based architecture — not from decorative illustration.
+- Inline-SVG illustrations, diagrams, metaphors, and infographics: yes, build these liberally.
+- Icons (Lucide) on most cards, and emoji as large visual anchors: yes.
+- Simple hand-built SVG "reaction" graphics for the occasional levity/meme card: yes, sparingly.
+- Charts and data viz (recharts + SVG): yes, several per companion.
+
+### 15.3 What NOT to Include
+
+- No photographs, stock imagery, or remote image URLs (artifacts can't reliably load them).
+  Everything visual is inline SVG, emoji, icons, or CSS.
+- No 3D character illustrations or heavy imported artwork.
+- No animated background effects that distract from the learning content.
+- No gradients or graphics that reduce text legibility.
+- No decoration that carries no meaning. Every graphic should teach, label, or orient. Busy is
+  not the goal; engaging and clear is.
 
 ---
 
@@ -830,7 +959,10 @@ These are the things that will make the companion look generic or broken. Avoid 
 1. **Pure white (#FFFFFF) full-page background.** Always use the periwinkle canvas.
 2. **Sharp corners on cards.** Never below `rounded-xl` (12px) for any container.
 3. **Hard black shadows.** Shadows are always cool-tinted and diffuse.
-4. **Competing accent colors on one screen.** One accent dominates per screen/section.
+4. **Competing accent colors in the chrome.** One accent still leads per section for the UI
+   itself (nav highlight, buttons, card accents). Charts, infographics, and the mind map may use
+   several accents at once when the data genuinely calls for it, as long as they read as one
+   coherent visual and not a random rainbow.
 5. **Dense paragraph blocks without spacing.** Max 3 sentences per visual paragraph.
 6. **Borders instead of shadows for card elevation.** Cards float with shadow, not outline.
 7. **Default browser form elements.** Every input, radio, and checkbox is custom-styled.
@@ -838,7 +970,8 @@ These are the things that will make the companion look generic or broken. Avoid 
 9. **Generic gray buttons.** CTAs are always the dark pill or a colored accent button.
 10. **Centered body text.** Body text is always left-aligned. Only headings and bookend
     display text may be centered.
-11. **More than 4 colors visible simultaneously.** The canvas + one or two accents + text
-    colors. That's it. If you see a rainbow, you've gone wrong.
+11. **A rainbow UI.** The interface chrome stays calm: canvas, one or two accents, text colors.
+    Data visuals and the mind map are the exception and may carry more color, but they should
+    still feel deliberate. If a plain content screen looks like a paint sample, you've gone wrong.
 12. **Stacking multiple cards with the same visual weight.** Vary card sizes, colors, and
     content types to create rhythm.
