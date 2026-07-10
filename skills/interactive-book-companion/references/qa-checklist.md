@@ -122,6 +122,18 @@ so and say you traced it by hand instead.
 - [ ] Every jump-link, "see the principle card", etc. points at something that exists.
 - [ ] No jargon without an immediate plain-language definition or analogy.
 
+### I2. Depth of understanding (the point of the whole thing)
+- [ ] Every major idea is genuinely EXPLAINED: what it is, and why/how it works (the mechanism),
+      not just named. A motivated reader could explain it to someone else afterward.
+- [ ] Every major idea has at least one concrete WORKED EXAMPLE (from the book or built from its
+      logic), not just an abstract statement.
+- [ ] Opening a mind-map node gives a real multi-paragraph mini-lesson with an example, not a
+      one-line gloss. Check several nodes, including deep ones.
+- [ ] No screen is so thin that it looks good but teaches nothing. If you removed the graphics,
+      real substance would remain on each teaching screen.
+- [ ] The companion covers the book's important details; nothing central was dropped to keep it
+      short. Breadth and depth are both there.
+
 ### J. Award-level design polish (does it look like it could win, not just work)
 - [ ] Typography is fluid and tracked: the hero/book title uses `clamp()` and tight tracking,
       not a fixed 36px; uppercase eyebrows have positive tracking; headings use `text-wrap:balance`.

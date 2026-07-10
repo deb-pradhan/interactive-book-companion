@@ -6,10 +6,26 @@ dashboards it is modeled on: the **Roam learning** and **HealthyLife** families.
 colorful, graphic, playful product UIs, packed with charts, colored cards, mascots, and
 illustrations. Follow every specification literally. When in doubt, add a graphic.
 
-**The number one rule: this is a graphical product, not a document.** If a screen is mostly
-paragraphs, it is wrong. Every view should be carried by charts, colored cards, icons,
-illustrations, progress rings, and stats, with text as the supporting layer. Reviewers keep
-saying the output feels text-heavy. Overcorrect toward visuals.
+**The number one rule: the goal is understanding, not decoration.** This is a teaching tool
+built on the science of learning, judged by whether the reader actually understands the
+material afterward, not by how it looks. Two things have to hold together:
+
+- **Substance is non-negotiable.** Every idea gets a thorough, plain-language explanation: what
+  it means, *why and how it works* (the mechanism), and at least one concrete worked example.
+  Never reduce a concept to a headline and a chart. If a reader couldn't turn around and explain
+  the idea to a friend after reading a screen, that screen is too thin. Depth and completeness
+  are the point. Do not skip the details.
+- **Visuals make the depth approachable; they never replace it.** Charts, diagrams, the mind
+  map, colored cards, and stats are scaffolding. They organize the material, show structure and
+  relationships, and give the eye somewhere to rest so a reader can absorb dense ideas without
+  drowning in gray text. Word and image work together (this is dual coding); neither carries the
+  load alone.
+
+Both extremes fail: a wall of undifferentiated text no one reads, AND a glossy interface that
+looks great but teaches nothing. Aim where an expert educator aims: rich, layered explanation
+with real examples, made navigable and vivid by strong visuals. When you must choose, choose
+understanding. A screen that is a little text-heavy but teaches beats a beautiful one that
+doesn't.
 
 **The bar is Awwwards Site of the Day.** The companion should look good enough to win a web
 design award, not just "clean." Judge every screen the way an Awwwards jury does, on four axes:
@@ -36,10 +52,13 @@ HealthyLife). Six principles:
    blue, pink, lavender, gray) and drop in black feature cards for punch. A screen is a mosaic
    of colored cards, charts, and illustrations, not a column of white boxes.
 
-3. **Graphical by default.** Charts, donuts, progress rings, timelines, pictographs, icons in
-   colored circles, mascots, and line-art illustrations do the teaching. Reach for a visual
-   before a paragraph. Numbers are shown as charts and rings, categories as chips with icons,
-   relationships as diagrams. Aim for several real graphics per screen.
+3. **Dual coding: word and image together.** Charts, donuts, progress rings, timelines,
+   pictographs, icons, mascots, and diagrams organize and illuminate the teaching, but the
+   teaching itself lives in clear, substantial explanation. Pair them: show the structure as a
+   diagram AND explain it in words; give the number as a chart AND say what it means and why.
+   Numbers, categories, and relationships become visuals; ideas, mechanisms, and examples get
+   real prose. Aim for several real graphics per screen, each anchored to genuine explanation,
+   never floating free of it.
 
 4. **Color is loud and functional.** Each method still keeps its signature accent (so the reader
    learns the vocabulary), but the palette is used generously and simultaneously. This is a
@@ -502,20 +521,27 @@ card stack. It is the visual centerpiece of the companion, so make it feel alive
 - Respect `prefers-reduced-motion`: drop the idle drift and edge flow, keep only quick opacity
   fades on expand.
 
+**Layout: a top-down tree is the default and clearest choice.** Root the thesis at the top and
+branch downward, level by level, into subtopics and their subtopics, like an org chart or a
+knowledge tree. A top-down (or left-to-right) hierarchical tree reads as "this contains these,
+which contain these" far more legibly than a radial burst, and it scales to four levels without
+becoming a tangle. Use a radial layout only if the book's structure is genuinely hub-and-spoke.
+Either way the connections must be explicit lines, it must animate, and every node must open a
+substantial explanation.
+
 **It goes deep (four logical levels).** A flat two-level map is not enough. Branch out to
 subtopics and their details, but only where the book genuinely has that structure. Never invent
 branches to fill space; depth must be real.
 
-- **L0 Center — Thesis.** One node, the book's core argument.
-- **L1 Branch — Major ideas.** The 3-7 load-bearing frameworks radiating from the center.
-- **L2 Sub-branch — Subtopics.** Each major idea splits into its 2-5 real components,
-  mechanisms, or steps. This is the level the current output is missing.
-- **L3 Leaf — Details & boundaries.** Under a subtopic: the specific evidence, example,
-  technique, or the condition where it breaks down.
+- **L0 Root — Thesis.** One node at the top, the book's core argument.
+- **L1 — Major ideas.** The 3-7 load-bearing frameworks branching down from the root.
+- **L2 — Subtopics.** Each major idea splits into its 2-5 real components, mechanisms, or steps.
+- **L3 — Details & boundaries.** Under a subtopic: the specific evidence, example, technique, or
+  the condition where it breaks down.
 
-Deeper levels are collapsed by default. The reader opens a branch to reveal its subtopics, opens
-a subtopic to reveal its details, so the map grows on demand and never overwhelms. Node size and
-weight step down by level (bigger/bolder at the center, smaller toward the leaves).
+Deeper levels are collapsed by default. The reader expands a branch to reveal its subtopics,
+expands a subtopic to reveal its details, so the tree grows downward on demand and never
+overwhelms. Node size and weight step down by level (bigger/bolder at the root).
 
 **L0 Center node (Thesis)**
 ```
@@ -580,16 +606,27 @@ Mobile fallback: below a usable width, collapse to an indented, expandable multi
   keeps the same click-into-topic behavior and the same four levels
 ```
 
-**Node detail panel (opens on node click)**
+**Node detail panel (opens on node click) — this is where the real teaching happens.**
+This panel is not a tooltip. It is a mini-lesson, and it must be substantial. A one-line gloss
+here is the single most common way this companion fails to teach. Make it wide enough to read
+comfortably (w-[460px]+ on desktop; a tall, scrollable bottom sheet on mobile) and fill it:
 ```
-Desktop: a side drawer, w-[420px], slides in from the right, bg-white rounded-l-2xl shadow-xl
-Mobile: a bottom sheet, rounded-t-2xl, covering ~85% height, drag-down or X to close
-Header: overline chip with the idea's method color + the node title (heading-2) + close icon
-Body: the plain-language explanation (body), the visual/chart for that idea, and a row of
-  jump-links ("See the principle card", "Try the challenge", "Read the case study") styled as
-  secondary pills that navigate the reader to that section
-Backdrop: on mobile, a dimmed scrim behind the sheet; tap to dismiss
+Header: overline chip (level + method color) + the node title (heading-2) + close icon
+Body, in this order:
+  1. A clear explanation of the idea in 2-4 short paragraphs: what it is, and crucially WHY and
+     HOW it works (the mechanism). Plain language, no jargon without a definition.
+  2. At least one concrete WORKED EXAMPLE, drawn from the book or built from its logic, shown in
+     a tinted call-out box so it stands apart. Deeper (L2/L3) nodes still get a real example.
+  3. Optional: a small supporting visual for this specific idea (a mini-diagram, stat, or
+     comparison) when it genuinely aids understanding.
+  4. A "why it matters" or "how to use it" takeaway line.
+  5. A row of jump-links (see the principle card / try the challenge / read the case study) as
+     secondary pills that navigate the reader to the matching section.
+Scroll: the panel scrolls; long content is expected and good here, not a problem to trim.
+Backdrop: dimmed scrim behind it; click/tap or Escape to dismiss.
 ```
+The root and each major-idea node deserve the fullest treatment; leaf nodes can be a little
+shorter but still explain and exemplify, never just label.
 
 ### 7.7 Flashcard
 
@@ -1202,14 +1239,24 @@ If dark mode is explicitly requested by the user in the future, the mapping woul
 
 These are the things that will make the companion look generic or broken. Avoid at all costs.
 
-**The two worst failures (reviewers hit these repeatedly):**
+**The two worst failures (opposite extremes, both fatal):**
 
-- **Text-heavy screens.** A screen that is mostly paragraphs and plain cards, with no chart,
-  colored stat grid, illustration, or diagram. This is the #1 complaint. Every screen needs
-  real graphics carrying it. If you wrote three paragraphs and no visual, stop and add visuals.
+- **Thin content (the worse of the two).** A screen that presents an idea as a headline, a
+  chart, and a sentence, so the reader sees something pretty but learns nothing. No mechanism,
+  no example, no depth. This is the failure that matters most, because it defeats the whole
+  purpose. Every concept needs a real explanation and at least one worked example. If a reader
+  couldn't explain the idea afterward, the screen failed.
+- **Undifferentiated walls of text.** The opposite sin: a solid gray block of paragraphs with no
+  structure, no visual, no hierarchy, so no one reads it. Break dense material with diagrams,
+  stat callouts, pull-quotes, and whitespace. The fix is never to cut the substance; it is to
+  structure and illustrate it.
+
+Hit the middle: substantial explanation, structured and illustrated so it's inviting to read.
+
 - **A static or shallow mind map.** If the map does not move (no idle drift, no flowing edges,
   no spring on expand) it reads as dead. If it stops at two levels, it is too shallow. It must
-  animate and it must branch into subtopics and details (four logical levels).
+  animate and branch into subtopics and details (four logical levels), and opening a node must
+  reveal a genuine, in-depth explanation with examples, not a one-line label.
 
 **The rest:**
 

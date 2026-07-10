@@ -98,19 +98,30 @@ frozen picture. The point is to show how the ideas connect and branch out, so th
 the shape of the book at a glance and can trace how one idea leads to the next. It is the visual
 centerpiece of the companion, so make it deep and make it move.
 
+**Prefer a top-down tree.** Root the thesis at the top and branch downward level by level into
+subtopics and their subtopics, like a knowledge tree or org chart. A top-down (or left-to-right)
+hierarchical tree reads as "this contains these" far more clearly than a radial burst and scales
+cleanly to four levels. Use a radial layout only when the book is genuinely hub-and-spoke.
+
 **Four logical levels of depth.** A two-level map is too shallow. Branch out into subtopics and
 their details, but only where the book genuinely has that structure. Never add branches to fill
 space; every branch must be real.
 
-- **Center (Thesis):** one node holding the book's central argument.
-- **Branch (Major ideas):** the 3-7 load-bearing frameworks radiating from the center. Connect
-  them to each other where one genuinely feeds another, so the causal flow is visible.
-- **Sub-branch (Subtopics):** each major idea splits into its 2-5 real components, mechanisms,
-  or steps. This is the level the output has been missing. Add it.
-- **Leaf (Details & boundaries):** under a subtopic, the specific evidence, example, technique,
-  or the condition where the idea breaks down.
+- **Root (Thesis):** one node at the top holding the book's central argument.
+- **Major ideas:** the 3-7 load-bearing frameworks branching down from the root. Connect them to
+  each other where one genuinely feeds another, so the logical flow is visible.
+- **Subtopics:** each major idea splits into its 2-5 real components, mechanisms, or steps.
+- **Details & boundaries:** under a subtopic, the specific evidence, example, technique, or the
+  condition where the idea breaks down.
 
-Deeper levels stay collapsed until opened, so the map grows on demand instead of overwhelming.
+Deeper levels stay collapsed until opened, so the tree grows downward on demand.
+
+**Opening a node teaches; it is not a tooltip.** This is the most important part. When the reader
+clicks a node, the detail panel gives a real mini-lesson: 2-4 short paragraphs explaining the
+idea and its mechanism (what, why, how), a concrete worked example in a call-out, an optional
+small visual, and a takeaway. A one-line gloss here is the single most common way the companion
+fails to teach. Every node, down to the leaves, explains and exemplifies. See the node detail
+panel spec in design-system section 7.6.
 
 **It moves.** The map is never static:
 
@@ -350,13 +361,21 @@ Every hex value, every shadow spec, every component variant, every reference pat
 grid, black feature card, floating pill nav, gantt timeline), every animation, every
 anti-pattern is in the design system file. Follow it literally.
 
-**Make it graphical. This is the thing reviewers keep flagging.** Text, plain cards, and
-quizzes alone are not enough, and the output keeps coming back too text-heavy. Overcorrect.
-Every screen must be carried by real visuals, not decorated with one. Concretely, an overview
-or section-landing screen should have several of: a colored stat-card grid, a chart or donut,
-progress rings, a black feature card, an illustration or mascot, a gantt/timeline, icon chips.
-If you wrote a few paragraphs and added no chart, stat grid, or illustration, the screen is
-wrong. Rebuild it around a graphic. Match the reference dashboards' density, not a document's.
+**Teach with real depth, made vivid by visuals. Hold both, and if forced, choose understanding.**
+Think like an experienced educator who knows the science of learning. The job is not to present
+the book in a pretty interactive way; it is to make the reader genuinely understand it. That
+means every idea gets a thorough, plain-language explanation of what it is, why and how it works,
+and at least one concrete worked example. Do not miss the details. A screen that shows a concept
+as a headline and a chart but never actually explains it has failed, no matter how good it looks.
+
+At the same time, do not dump gray walls of text. Structure and illustrate the substance so it
+invites reading: use charts, diagrams, the mind map, stat call-outs, colored cards, and
+whitespace to organize dense material and give the eye somewhere to rest. Word and image work
+together (dual coding); neither carries the load alone. An overview screen can be visual and
+punchy; the deeper "read" and mind-map-node screens should be substantial, with full explanation
+and examples. The old instruction to "overcorrect toward visuals" was wrong and produced thin,
+shallow output. Correct it: rich explanation first, made navigable and engaging by strong
+visuals. Aim for what a great teacher produces, not a dashboard and not a textbook.
 
 **Design to win an award, not just to be clean.** The bar is Awwwards Site of the Day. Judge
 your own build on the four criteria an Awwwards jury uses: Design (40%), Usability (20%),
@@ -476,14 +495,18 @@ Every companion must pass these checks:
 
 - [ ] Opening bookend would give someone the core message even if they read nothing else
 - [ ] Schema activation quiz uses genuinely familiar domains, not the book's own jargon
-- [ ] The mind map is a real node-and-edge flow diagram that ANIMATES (idle drift, flowing
-      edges, spring expand) and branches four logical levels deep (thesis → idea → subtopic →
-      detail), and every node opens a topic deep dive when clicked
+- [ ] A reader would genuinely UNDERSTAND each major idea after using the companion: every
+      concept has a real explanation of what it is and why/how it works, plus a concrete worked
+      example. Nothing is left as a headline and a chart. Depth is present, details are not skipped.
+- [ ] The mind map is a top-down (or clearly hierarchical) tree that ANIMATES (idle drift,
+      flowing edges, spring expand) and branches four logical levels deep (thesis → idea →
+      subtopic → detail)
+- [ ] Opening any mind-map node gives a substantial mini-lesson (multi-paragraph explanation +
+      a worked example + takeaway), not a one-line label
 - [ ] A persistent navigation lets the reader jump to any section from anywhere
 - [ ] Each principle card passes the "could I reconstruct the details from this?" test
-- [ ] Visual frameworks use the correct diagram type for the concept's structure
-- [ ] Every screen is carried by real graphics (charts, colored stat grids, rings,
-      illustrations, timelines), not paragraphs. No screen is mostly text.
+- [ ] Visuals and text work together (dual coding): every graphic is anchored to real
+      explanation, and dense text is structured and illustrated, not a gray wall
 - [ ] The look matches the reference dashboards: colored card grids, black feature cards,
       pill nav/chips, mascot or line-art illustrations, dense charts
 - [ ] Icons, emojis-as-anchors, and small graphics carry meaning throughout the interface
