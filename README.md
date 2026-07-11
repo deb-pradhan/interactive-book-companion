@@ -6,7 +6,7 @@ The output is a single self-contained interactive page the reader moves through 
 
 This repo is **model- and platform-agnostic**. Use it with Claude, OpenAI GPTs, Gemini, local models (Ollama / LM Studio), or agent frameworks like LangChain, CrewAI, and AutoGen.
 
-> **Using an AI agent?** See [`AGENTS.md`](AGENTS.md) for paste-ready instructions to make any agent use this skill.
+> **Using an AI agent?** See [`AGENTS.md`](AGENTS.md) for paste-ready instructions, and [`llms.txt`](llms.txt) for a browsable index of every file with direct raw links (so an agent can read the whole repo without cloning).
 
 ## What the generated companion gives you
 

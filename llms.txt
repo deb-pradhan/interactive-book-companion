@@ -1,0 +1,55 @@
+# Interactive Book Companion
+
+> A platform-agnostic skill that turns any book, article, paper, PDF, or EPUB into a single
+> self-contained interactive learning companion built on cognitive science. This file is an
+> index for AI agents and LLMs: every file is listed with a direct raw URL you can fetch as
+> plain text, no cloning required.
+
+How to read this repo: fetch any path below directly. All raw files live under the base
+`https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/`. Start with
+AGENTS.md, then the skill's SKILL.md and its references. The universal prompt is fully
+self-contained if you only want one file.
+
+## Start here (agent instructions)
+
+- [AGENTS.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/AGENTS.md): How any agent should use the skill. Read this first.
+- [README.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/README.md): Human overview, quick starts, and what's inside.
+- [PIPELINE.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/PIPELINE.md): The two-stage flow for large PDFs/EPUBs (compress, then build).
+
+## The skill: interactive-book-companion
+
+- [SKILL.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/interactive-book-companion/SKILL.md): The main skill. How to build a companion, the ten methods, the process, the test gate. Follow it literally.
+- [references/design-system.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/interactive-book-companion/references/design-system.md): Complete design system: tokens, components, the top-down tree mind map, motion, award-level craft.
+- [references/ten-methods.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/interactive-book-companion/references/ten-methods.md): The cognitive-science evidence base behind each method.
+- [references/qa-checklist.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/interactive-book-companion/references/qa-checklist.md): The functional + depth QA checklist to run before delivering. Test until green.
+- [references/examples.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/interactive-book-companion/references/examples.md): Good vs bad output examples per method.
+
+## Ready-to-use exports (for agents that can't browse the repo)
+
+- [universal-prompt.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/exports/interactive-book-companion-universal-prompt.md): The entire skill as one self-contained system prompt for any LLM. Paste as the system message.
+- [openai-custom-gpt-config.json](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/exports/openai-custom-gpt-config.json): OpenAI Custom GPT / Assistant config.
+- [agent-framework-config.json](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/exports/agent-framework-config.json): LangChain / CrewAI / AutoGen config (system_prompt, agent, task).
+- [interactive-book-companion.skill](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/exports/interactive-book-companion.skill): Zipped Agent Skill package (binary) for Claude.ai import.
+
+## book-to-skill (compress a large PDF/EPUB first)
+
+- [SKILL.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/book-to-skill/SKILL.md): The map-reduce compressor that distills a book into a two-tier knowledge base.
+- [VENDORED.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/book-to-skill/VENDORED.md): Attribution and license for this vendored skill (MIT).
+- [scripts/extract.py](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/book-to-skill/scripts/extract.py): PDF/EPUB text extraction (PyMuPDF / ebooklib).
+- [reference/concept-map-spec.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/book-to-skill/reference/concept-map-spec.md): The Tier 1 concept-map output spec.
+
+## awwwards (award-level design craft, vendored)
+
+- [ARTIFACT-ADAPTATION.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/ARTIFACT-ADAPTATION.md): READ FIRST. Which award techniques work inside a single self-contained artifact, and the dependency-free equivalents.
+- [SKILL.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/SKILL.md): The creative-direction skill and the four Awwwards judging criteria.
+- [references/typography.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/references/typography.md): Fluid type, pairings, kinetic techniques.
+- [references/motion-design.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/references/motion-design.md): Easing curves, reveals, counters, loaders.
+- [references/color-systems.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/references/color-systems.md): Palettes, oklch, gradients, dark mode.
+- [references/layouts-ux.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/references/layouts-ux.md): Grids, heroes, navigation, micro-interactions.
+- [references/css-techniques.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/references/css-techniques.md): Scroll-driven animations, container queries, :has(), view transitions.
+- [references/studios-philosophy.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/references/studios-philosophy.md): Judging criteria, studio philosophies, macro trends.
+
+## Optional
+
+- [webgl-3d.md](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/skills/awwwards/references/webgl-3d.md): Three.js/WebGL reference. Note: does NOT apply inside a single self-contained artifact (see ARTIFACT-ADAPTATION.md).
+- [LICENSE](https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/LICENSE): MIT license for this repo.

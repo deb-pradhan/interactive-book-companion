@@ -6,6 +6,15 @@ AI agent how to use it. Many agents read `AGENTS.md` automatically; if yours doe
 block below into its system prompt, custom instructions, or rules file (`.cursorrules`,
 `CLAUDE.md`, etc.).
 
+## How to access the files
+
+If you can clone or already have the repo, use the relative paths below. If you can only fetch
+URLs, every file is available as clean plain text under the raw base
+`https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/` (append any path,
+e.g. `.../main/skills/interactive-book-companion/SKILL.md`). A full machine-readable index with
+one direct link per file is in [`llms.txt`](llms.txt) at the repo root, fetchable at
+`https://raw.githubusercontent.com/deb-pradhan/interactive-book-companion/main/llms.txt`.
+
 ## When to use it
 
 Whenever the user wants to turn a book, article, paper, PDF, or EPUB into an interactive learning
