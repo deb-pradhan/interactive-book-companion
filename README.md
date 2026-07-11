@@ -6,6 +6,8 @@ The output is a single self-contained interactive page the reader moves through 
 
 This repo is **model- and platform-agnostic**. Use it with Claude, OpenAI GPTs, Gemini, local models (Ollama / LM Studio), or agent frameworks like LangChain, CrewAI, and AutoGen.
 
+> **Using an AI agent?** See [`AGENTS.md`](AGENTS.md) for paste-ready instructions to make any agent use this skill.
+
 ## What the generated companion gives you
 
 - An **interactive mind map** built as a real flow diagram: ideas as nodes, connected by lines that show how the book branches out. Click any node to open that topic and go deep.
